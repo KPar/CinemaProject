@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <HBox prefHeight="35.0" prefWidth="600.0">
+            <children>
+                <Label contentDisplay="TOP" prefHeight="50.0" prefWidth="151.0" text="Danfango" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                    <font>
+                        <Font name="Charter Roman" size="21.0" />
+                    </font>
+                    <padding>
+                        <Insets left="20.0" />
+                    </padding>
+                </Label>
+                <Region prefHeight="50.0" prefWidth="340.0" HBox.hgrow="ALWAYS" />
+            <Label alignment="CENTER" prefHeight="35.0" prefWidth="199.0" text="Administrator">
+               <font>
+                  <Font name="Rockwell" size="18.0" />
+               </font>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Label>
+            </children>
+        </HBox>
+        <HBox prefHeight="327.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
+            <children>
+                <TabPane prefHeight="327.0" prefWidth="603.0" tabClosingPolicy="UNAVAILABLE" HBox.hgrow="ALWAYS">
+                    <tabs>
+                        <Tab text="Movies">
+                            <content>
+                                <VBox prefHeight="200.0" prefWidth="100.0">
+                                    <children>
+                                        <HBox prefHeight="40.0" prefWidth="600.0">
+                                            <children>
+                                                <TextField alignment="CENTER" prefHeight="27.0" prefWidth="355.0" promptText="Title" HBox.hgrow="ALWAYS">
+                                                    <HBox.margin>
+                                                        <Insets bottom="10.0" left="10.0" top="10.0" />
+                                                    </HBox.margin>
+                                                </TextField>
+                                    <ComboBox prefHeight="27.0" prefWidth="93.0" promptText="Rating">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="10.0" top="10.0" />
+                                       </HBox.margin>
+                                    </ComboBox>
+                                                <ComboBox prefHeight="27.0" prefWidth="106.0" promptText="Cinema">
+                                                    <HBox.margin>
+                                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                    </HBox.margin>
+                                                </ComboBox>
+                                            </children>
+                                        </HBox>
+                              <HBox prefHeight="30.0" prefWidth="600.0">
+                                 <children>
+                                    <Region prefHeight="42.0" prefWidth="10.0" HBox.hgrow="ALWAYS" />
+                                    <ComboBox prefHeight="27.0" prefWidth="100.0" promptText="Hours">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" top="5.0" />
+                                       </HBox.margin>
+                                    </ComboBox>
+                                    <ComboBox prefHeight="27.0" prefWidth="100.0" promptText="Minutes">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="50.0" top="5.0" />
+                                       </HBox.margin>
+                                    </ComboBox>
+                                    <ComboBox prefHeight="27.0" prefWidth="100.0" promptText="AM/PM">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="50.0" top="5.0" />
+                                       </HBox.margin>
+                                    </ComboBox>
+                                    <Button mnemonicParsing="false" prefWidth="60.0" text="Apply">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="50.0" top="5.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Region prefHeight="37.0" prefWidth="15.0" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                                        <HBox prefHeight="258.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
+                                            <children>
+                                                <ListView prefHeight="251.0" prefWidth="600.0" HBox.hgrow="ALWAYS">
+                                                    <HBox.margin>
+                                                        <Insets left="10.0" right="10.0" />
+                                                    </HBox.margin>
+                                                </ListView>
+                                            </children>
+                                        </HBox>
+                              <HBox prefHeight="20.0" prefWidth="600.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="80.0" text="Delete">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Region prefHeight="27.0" prefWidth="456.0" HBox.hgrow="ALWAYS" />
+                                    <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="84.0" text="Display">
+                                       <HBox.margin>
+                                          <Insets right="10.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="10.0" />
+                                 </VBox.margin>
+                              </HBox>
+                                    </children>
+                                </VBox>
+                            </content>
+                        </Tab>
+                        <Tab text="Cinema">
+                            <content>
+                                <VBox prefHeight="200.0" prefWidth="100.0">
+                                    <children>
+                                        <HBox prefHeight="45.0" prefWidth="600.0">
+                                            <children>
+                                                <TextField prefHeight="27.0" prefWidth="415.0" promptText="Cinema" HBox.hgrow="ALWAYS">
+                                                    <HBox.margin>
+                                                        <Insets bottom="10.0" left="10.0" top="10.0" />
+                                                    </HBox.margin>
+                                                </TextField>
+                                    <TextField prefHeight="27.0" prefWidth="415.0" promptText="Address">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
+                                    </TextField>
+                                            </children>
+                                        </HBox>
+                              <HBox prefHeight="30.0" prefWidth="200.0">
+                                 <children>
+                                    <Region prefHeight="34.0" prefWidth="10.0" HBox.hgrow="ALWAYS" />
+                                    <ComboBox prefHeight="27.0" prefWidth="100.0" promptText="Hours">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" />
+                                       </HBox.margin>
+                                    </ComboBox>
+                                    <ComboBox prefHeight="27.0" prefWidth="100.0" promptText="Minutes">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="50.0" />
+                                       </HBox.margin>
+                                    </ComboBox>
+                                    <ComboBox prefHeight="27.0" prefWidth="100.0" promptText="AM/PM">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="50.0" />
+                                       </HBox.margin>
+                                    </ComboBox>
+                                    <Button mnemonicParsing="false" prefWidth="60.0" text="Apply">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="50.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Region prefHeight="34.0" prefWidth="15.0" HBox.hgrow="ALWAYS" />
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </HBox>
+                                        <HBox prefHeight="255.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
+                                            <children>
+                                                <ListView prefHeight="251.0" prefWidth="600.0" HBox.hgrow="ALWAYS">
+                                                    <HBox.margin>
+                                                        <Insets left="10.0" right="10.0" />
+                                                    </HBox.margin>
+                                                </ListView>
+                                            </children>
+                                        </HBox>
+                              <HBox prefHeight="20.0" prefWidth="600.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="80.0" text="Delete">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Region prefHeight="200.0" prefWidth="456.0" HBox.hgrow="ALWAYS" />
+                                    <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="84.0" text="Display">
+                                       <HBox.margin>
+                                          <Insets right="10.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="10.0" />
+                                 </VBox.margin>
+                              </HBox>
+                                    </children>
+                                </VBox>
+                            </content></Tab>
+                    </tabs>
+                </TabPane>
+            </children>
+        </HBox>
+        <HBox alignment="BOTTOM_CENTER" prefHeight="22.0" prefWidth="600.0">
+            <children>
+                <Label alignment="CENTER" prefHeight="24.0" prefWidth="600.0" text="\@Danfango - The Other Fandango" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                    <font>
+                        <Font name="Charter Roman" size="12.0" />
+                    </font>
+                </Label>
+            </children>
+        </HBox>
+    </children>
+</VBox>
