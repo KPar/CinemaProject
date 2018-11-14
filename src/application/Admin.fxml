@@ -49,17 +49,17 @@
                                     <children>
                                         <HBox prefHeight="40.0" prefWidth="600.0">
                                             <children>
-                                                <TextField alignment="CENTER" prefHeight="27.0" prefWidth="355.0" promptText="Title" HBox.hgrow="ALWAYS">
+                                                <TextField fx:id="movietitle" alignment="CENTER" prefHeight="27.0" prefWidth="355.0" promptText="Title" HBox.hgrow="ALWAYS">
                                                     <HBox.margin>
                                                         <Insets bottom="10.0" left="10.0" top="10.0" />
                                                     </HBox.margin>
                                                 </TextField>
-                                    <ComboBox prefHeight="27.0" prefWidth="93.0" promptText="Rating">
+                                    <ComboBox fx:id="rating" prefHeight="27.0" prefWidth="93.0" promptText="Rating">
                                        <HBox.margin>
                                           <Insets bottom="10.0" left="10.0" top="10.0" />
                                        </HBox.margin>
                                     </ComboBox>
-                                                <ComboBox prefHeight="27.0" prefWidth="106.0" promptText="Cinema">
+                                                <ComboBox fx:id="cinema" prefHeight="27.0" prefWidth="106.0" promptText="Cinema">
                                                     <HBox.margin>
                                                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                                     </HBox.margin>
@@ -69,22 +69,22 @@
                               <HBox prefHeight="30.0" prefWidth="600.0">
                                  <children>
                                     <Region prefHeight="42.0" prefWidth="10.0" HBox.hgrow="ALWAYS" />
-                                    <ComboBox prefHeight="27.0" prefWidth="100.0" promptText="Hours">
+                                    <ComboBox fx:id="hours" prefHeight="27.0" prefWidth="100.0" promptText="Hours">
                                        <HBox.margin>
                                           <Insets bottom="10.0" top="5.0" />
                                        </HBox.margin>
                                     </ComboBox>
-                                    <ComboBox prefHeight="27.0" prefWidth="100.0" promptText="Minutes">
+                                    <ComboBox fx:id="minutes" prefHeight="27.0" prefWidth="100.0" promptText="Minutes">
                                        <HBox.margin>
                                           <Insets bottom="10.0" left="50.0" top="5.0" />
                                        </HBox.margin>
                                     </ComboBox>
-                                    <ComboBox prefHeight="27.0" prefWidth="100.0" promptText="AM/PM">
+                                    <ComboBox fx:id="daytime" prefHeight="27.0" prefWidth="100.0" promptText="AM/PM">
                                        <HBox.margin>
                                           <Insets bottom="10.0" left="50.0" top="5.0" />
                                        </HBox.margin>
                                     </ComboBox>
-                                    <Button mnemonicParsing="false" prefWidth="60.0" text="Apply">
+                                    <Button mnemonicParsing="false" onAction="#movieApply" prefWidth="60.0" text="Apply">
                                        <HBox.margin>
                                           <Insets bottom="10.0" left="50.0" top="5.0" />
                                        </HBox.margin>
@@ -103,13 +103,13 @@
                                         </HBox>
                               <HBox prefHeight="20.0" prefWidth="600.0">
                                  <children>
-                                    <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="80.0" text="Delete">
+                                    <Button mnemonicParsing="false" onAction="#movieDelete" prefHeight="27.0" prefWidth="80.0" text="Delete">
                                        <HBox.margin>
                                           <Insets left="10.0" />
                                        </HBox.margin>
                                     </Button>
                                     <Region prefHeight="27.0" prefWidth="456.0" HBox.hgrow="ALWAYS" />
-                                    <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="84.0" text="Display">
+                                    <Button mnemonicParsing="false" onAction="#moviedisplay" prefHeight="27.0" prefWidth="84.0" text="Display">
                                        <HBox.margin>
                                           <Insets right="10.0" />
                                        </HBox.margin>
@@ -129,12 +129,12 @@
                                     <children>
                                         <HBox prefHeight="45.0" prefWidth="600.0">
                                             <children>
-                                                <TextField prefHeight="27.0" prefWidth="415.0" promptText="Cinema" HBox.hgrow="ALWAYS">
+                                                <TextField fx:id="cinemaname" prefHeight="27.0" prefWidth="415.0" promptText="Cinema" HBox.hgrow="ALWAYS">
                                                     <HBox.margin>
                                                         <Insets bottom="10.0" left="10.0" top="10.0" />
                                                     </HBox.margin>
                                                 </TextField>
-                                    <TextField prefHeight="27.0" prefWidth="415.0" promptText="Address">
+                                    <TextField fx:id="address" prefHeight="27.0" prefWidth="415.0" promptText="Address">
                                        <HBox.margin>
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </HBox.margin>
@@ -144,22 +144,22 @@
                               <HBox prefHeight="30.0" prefWidth="200.0">
                                  <children>
                                     <Region prefHeight="34.0" prefWidth="10.0" HBox.hgrow="ALWAYS" />
-                                    <ComboBox prefHeight="27.0" prefWidth="100.0" promptText="Hours">
+                                    <ComboBox fx:id="cinemahours" prefHeight="27.0" prefWidth="100.0" promptText="Hours">
                                        <HBox.margin>
                                           <Insets bottom="10.0" />
                                        </HBox.margin>
                                     </ComboBox>
-                                    <ComboBox prefHeight="27.0" prefWidth="100.0" promptText="Minutes">
+                                    <ComboBox fx:id="cinemaminutes" prefHeight="27.0" prefWidth="100.0" promptText="Minutes">
                                        <HBox.margin>
                                           <Insets bottom="10.0" left="50.0" />
                                        </HBox.margin>
                                     </ComboBox>
-                                    <ComboBox prefHeight="27.0" prefWidth="100.0" promptText="AM/PM">
+                                    <ComboBox fx:id="cinemadaytime" prefHeight="27.0" prefWidth="100.0" promptText="AM/PM">
                                        <HBox.margin>
                                           <Insets bottom="10.0" left="50.0" />
                                        </HBox.margin>
                                     </ComboBox>
-                                    <Button mnemonicParsing="false" prefWidth="60.0" text="Apply">
+                                    <Button mnemonicParsing="false" onAction="#cinemaApply" prefWidth="60.0" text="Apply">
                                        <HBox.margin>
                                           <Insets bottom="10.0" left="50.0" />
                                        </HBox.margin>
@@ -181,13 +181,13 @@
                                         </HBox>
                               <HBox prefHeight="20.0" prefWidth="600.0">
                                  <children>
-                                    <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="80.0" text="Delete">
+                                    <Button mnemonicParsing="false" onAction="#cinemaDelete" prefHeight="27.0" prefWidth="80.0" text="Delete">
                                        <HBox.margin>
                                           <Insets left="10.0" />
                                        </HBox.margin>
                                     </Button>
                                     <Region prefHeight="200.0" prefWidth="456.0" HBox.hgrow="ALWAYS" />
-                                    <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="84.0" text="Display">
+                                    <Button mnemonicParsing="false" onAction="#cinemadisplay" prefHeight="27.0" prefWidth="84.0" text="Display">
                                        <HBox.margin>
                                           <Insets right="10.0" />
                                        </HBox.margin>
