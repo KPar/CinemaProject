@@ -2,6 +2,8 @@ package application;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,17 +11,19 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.PasswordField;
+import javafx.scene.control.*;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.scene.control.TextField;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PublicController {
+    DatabaseHelper dbHelper;
 
     @FXML
     private TextField address;
@@ -29,6 +33,9 @@ public class PublicController {
 
     @FXML
     private TextField miles;
+
+    @FXML
+    private ListView<String> tab1ListView;
 
     public void initialize(){
         filter.getItems().addAll("All","G","PG","PG-13","R","NC17");
@@ -40,6 +47,31 @@ public class PublicController {
                 }
             }
         } );
+
+        dbHelper=new DatabaseHelper();
+
+        List list = dbHelper.getMovies("All");
+        if(list!=null){
+            ObservableList<String> observableList = FXCollections.observableList(list);
+            tab1ListView.setItems(observableList);
+            tab1ListView.setCellFactory(lv -> new ListCell<String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (item == null) {
+                        setText(null);
+                        setStyle(null);
+                    } else {
+                        setText(item);
+                    }
+                }
+            });
+        }else{
+            ObservableList<String> observableList = FXCollections.observableList(new ArrayList<>());
+            tab1ListView.setItems(observableList);
+        }
+
     }
 
     public void Admin(ActionEvent event) {
