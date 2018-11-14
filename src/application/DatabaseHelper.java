@@ -138,11 +138,12 @@ public class DatabaseHelper {
         try (Connection conn = this.connect();
              Statement stmt  = conn.createStatement();
              ResultSet rs    = stmt.executeQuery(sql)){
-
+            System.out.println("hi");
             if (!rs.isBeforeFirst()){
                 return null;
             }else{
                 while((rs.next())){
+
                     data=rs.getString("cinemaName")+"\n"+"Located at: ("+rs.getString("locationX")
                             +","+rs.getString("locationY")+")\n"+"At "+rs.getInt("showtimeHour")
                     +":"+rs.getInt("showtimeMinute")+rs.getString("showtimeAMPM");

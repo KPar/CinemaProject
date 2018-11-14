@@ -5,6 +5,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -13,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -35,6 +37,9 @@ public class PublicController {
 
     @FXML
     private ListView<String> tab1ListView;
+
+    @FXML
+    private ListView<String> tab2ListView;
 
     public void initialize(){
         filter.getItems().addAll("All","G","PG","PG-13","R","NC17");
@@ -66,9 +71,53 @@ public class PublicController {
                     }
                 }
             });
+            tab1ListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if(event.getClickCount()==2){
+                        tab1ListView.getSelectionModel().getSelectedItem();
+                        List list= dbHelper.getCinemas(tab1ListView.getSelectionModel().getSelectedIndex());
+                        ObservableList<String> observableList = FXCollections.observableList(list);
+                        tab1ListView.setItems(observableList);
+                    }
+                }
+            });
         }else{
             ObservableList<String> observableList = FXCollections.observableList(new ArrayList<>());
             tab1ListView.setItems(observableList);
+        }
+
+        list = dbHelper.getCinemas();
+        if(list!=null){
+            ObservableList<String> observableList = FXCollections.observableList(list);
+            tab2ListView.setItems(observableList);
+            tab2ListView.setCellFactory(lv -> new ListCell<String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (item == null) {
+                        setText(null);
+                        setStyle(null);
+                    } else {
+                        setText(item);
+                    }
+                }
+            });
+            tab2ListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if(event.getClickCount()==2){
+                        tab2ListView.getSelectionModel().getSelectedItem();
+                        List list= dbHelper.getMovies("All");
+                        ObservableList<String> observableList = FXCollections.observableList(list);
+                        tab2ListView.setItems(observableList);
+                    }
+                }
+            });
+        }else{
+            ObservableList<String> observableList = FXCollections.observableList(new ArrayList<>());
+            tab2ListView.setItems(observableList);
         }
 
     }
@@ -261,7 +310,9 @@ public class PublicController {
         }
     }
 
+    public void Cinemalist(ActionEvent e){
 
+    }
 
     public void cinemaApply(ActionEvent e){
         System.out.println("cinema list filtered to address");
