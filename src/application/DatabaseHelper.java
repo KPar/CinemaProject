@@ -16,21 +16,17 @@ public class DatabaseHelper {
             conn = DriverManager.getConnection(url);
 
             Statement stmt = conn.createStatement();
-            String sql = "CREATE TABLE IF NOT EXISTS Users ( " +
-                    "userId INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, password TEXT, " +
-                    "accountType INTEGER DEFAULT (0));";
-            stmt.execute(sql);
-            sql = "CREATE TABLE IF NOT EXISTS MoviesPlaying ( " +
+            String sql = "CREATE TABLE IF NOT EXISTS MoviesPlaying ( " +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT, movieId INTEGER REFERENCES Movies (movieId), " +
-                    "showTimeHour INTEGER, showTimeMinute INTEGER, " +
+                    "showtimeHour INTEGER, showtimeMinute INTEGER, showtimeAMPM TEXT, " +
                     "cinemaId INTEGER REFERENCES Cinemas (cinemaId));";
             stmt.execute(sql);
             sql = "CREATE TABLE IF NOT EXISTS Movies ( " +
-                    "movieId INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, " +
+                    "movieId INTEGER PRIMARY KEY AUTOINCREMENT, movieTitle TEXT, " +
                     "rating  TEXT);";
             stmt.execute(sql);
             sql = "CREATE TABLE IF NOT EXISTS Cinemas ( " +
-                    "cinemaId  INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, " +
+                    "cinemaId  INTEGER PRIMARY KEY AUTOINCREMENT, cinemaName TEXT, " +
                     "locationX INTEGER, locationY INTEGER);";
             stmt.execute(sql);
         } catch (SQLException e) {
@@ -85,7 +81,7 @@ public class DatabaseHelper {
 
     public List getMovies(int cinemaId){
         String sql;
-        sql = "SELECT * FROM Movies INNER JOIN MoviesPlaying USING (MovieId) WHERE cinemaId ="+cinemaId+" ORDER BY showTimeHour AND showTimeAMPM";
+        sql = "SELECT * FROM Movies INNER JOIN MoviesPlaying USING (MovieId) WHERE cinemaId ="+cinemaId+" ORDER BY showtimeHour AND showtimeAMPM";
 
         List<String> list = new ArrayList<>();
         String data ="";
@@ -148,8 +144,8 @@ public class DatabaseHelper {
             }else{
                 while((rs.next())){
                     data=rs.getString("cinemaName")+"\n"+"Located at: ("+rs.getString("locationX")
-                            +","+rs.getString("locationY")+")\n"+"At "+rs.getInt("showTimeHour")
-                    +":"+rs.getInt("showTimeMinute")+rs.getString("showTimeAMPM");
+                            +","+rs.getString("locationY")+")\n"+"At "+rs.getInt("showtimeHour")
+                    +":"+rs.getInt("showtimeMinute")+rs.getString("showtimeAMPM");
                     list.add(data);
                 }
                 return list;
@@ -191,58 +187,82 @@ public class DatabaseHelper {
         //if it does exist: do query from Movies to get the movieId to add row to MoviesPlaying
         //else 1) add it to Movies, 2) query for movieId, 3) add row to MoviesPlaying
 
-
-        int recipientUserId=0;
-
-        if (emailStatus==1){
-            if(recipient.length()!=0) {
-                if(getUserId(recipient).length!=0){
-                    recipientUserId = getUserId(recipient)[0];
-                }else{
-                    return false;
-                }
-            }
-        }else{
-            if(getUserId(recipient).length!=0){
-                recipientUserId = getUserId(recipient)[0];
-            }else{
-                return false;
-            }
-        }
-
-
-        Date date = new Date();
-        long dateNum = date.getTime();
-
-        SimpleDateFormat ft =
-                new SimpleDateFormat ("MMM dd, yyyy 'at' hh:mm:ss a zzz");
-
-        String dateText= ft.format(date);
-
-        String sql = "INSERT INTO EmailsTable(subject,content,emailStatus,senderId,recipientId,dateText,dateInteger) VALUES(?,?,?,?,?,?,?)";
+        String sql;
+        sql = "SELECT * FROM Movies WHERE movieTitle='"+movieTitle+"'";
 
         try (Connection conn = this.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, subject);
-            pstmt.setString(2, content);
-            pstmt.setInt(3, emailStatus);
-            pstmt.setInt(4, senderUserId);
-            pstmt.setInt(5, recipientUserId);
-            pstmt.setString(6, dateText);
-            pstmt.setLong(7, dateNum);
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql)){
 
-            pstmt.executeUpdate();
+            if (!rs.isBeforeFirst()){
+                //movie doesn't exist
+                sql = "INSERT INTO Movies (movieTitle,rating) VALUES(?,?)";
+                try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                    pstmt.setString(1, movieTitle);
+                    pstmt.setString(2, rating);
+                    pstmt.executeUpdate();
+                    addMovie(movieTitle,rating,hour,minute,timePeriod,cinemaId);  /*now it should start method again and
+                                                                                 see that movie exists, so it just goes
+                                                                                to else statement*/
+                } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                    return false;
+                }
+            }else{
+                rs.next();
+                int movieId = rs.getInt("movieId");
+                sql = "INSERT INTO MoviesPlaying(movieId,showtimeHour,showtimeMinute,showtimeAMPM, cinemaId) VALUES(?,?,?,?,?)";
+                try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                    pstmt.setInt(1, movieId);
+                    pstmt.setInt(2, hour);
+                    pstmt.setInt(3, minute);
+                    pstmt.setString(4, timePeriod);
+                    pstmt.setInt(5, cinemaId);
+                    pstmt.executeUpdate();
+                } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                    return false;
+                }
+
+            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return false;
         }
-        if(emailStatus==0){
-            System.out.println("Email sent to: "+recipient+" from "+getEmailAddress(senderUserId)+" with Subject: "+subject+" and Content: "+content);
-        }else{
-            System.out.println("Email draft saved to: "+recipient+" from "+getEmailAddress(senderUserId)+"  with Subject:"+subject+" and Content: "+content);
-        }
+
+
         return true;
     }
 
+    public boolean addCinema(String cinemaName, int locationX, int locationY){
+        String sql;
+            sql = "SELECT * FROM Cinemas WHERE cinemaName='"+cinemaName+"'";
+
+        try (Connection conn = this.connect();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql)){
+
+            if (!rs.isBeforeFirst()){
+                //cinema doesn't exist
+                sql = "INSERT INTO Cinemas (cinemaName,locationX,locationY) VALUES(?,?,?)";
+                try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                    pstmt.setString(1, cinemaName);
+                    pstmt.setInt(2, locationX);
+                    pstmt.setInt(2, locationY);
+                    pstmt.executeUpdate();
+                } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
+    }
 
 
 }
