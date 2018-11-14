@@ -1,15 +1,120 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-
-<GridPane alignment="center" hgap="10" vgap="10" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.121" fx:controller="application.PublicController">
-   <columnConstraints>
-      <ColumnConstraints />
-   </columnConstraints>
-   <rowConstraints>
-      <RowConstraints />
-   </rowConstraints>
-</GridPane>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1">
+   <children>
+      <HBox prefHeight="35.0" prefWidth="600.0">
+         <children>
+            <Label contentDisplay="TOP" prefHeight="50.0" prefWidth="151.0" text="Danfango" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font name="Charter Roman" size="21.0" />
+               </font>
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+            </Label>
+            <Region prefHeight="50.0" prefWidth="340.0" HBox.hgrow="ALWAYS" />
+            <Button alignment="TOP_LEFT" mnemonicParsing="false" text="Admin.">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+      <HBox prefHeight="327.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
+         <children>
+            <TabPane prefHeight="327.0" prefWidth="603.0" tabClosingPolicy="UNAVAILABLE" HBox.hgrow="ALWAYS">
+               <tabs>
+                  <Tab text="Movies">
+                     <content>
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <HBox prefHeight="40.0" prefWidth="600.0">
+                                 <children>
+                                    <TextField prefHeight="27.0" prefWidth="478.0" promptText="Search" HBox.hgrow="ALWAYS">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="10.0" top="10.0" />
+                                       </HBox.margin>
+                                    </TextField>
+                                    <ComboBox prefHeight="27.0" prefWidth="89.0" promptText="Filter">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
+                                    </ComboBox>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="258.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <ListView prefHeight="251.0" prefWidth="600.0" HBox.hgrow="ALWAYS">
+                                       <HBox.margin>
+                                          <Insets left="10.0" right="10.0" />
+                                       </HBox.margin>
+                                    </ListView>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </content>
+                  </Tab>
+                  <Tab text="Cinema">
+                     <content>
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <HBox prefHeight="45.0" prefWidth="600.0">
+                                 <children>
+                                    <TextField prefHeight="27.0" prefWidth="415.0" promptText="Address" HBox.hgrow="ALWAYS">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="10.0" top="10.0" />
+                                       </HBox.margin>
+                                    </TextField>
+                                    <Label prefHeight="27.0" prefWidth="49.0" text="Within: ">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <ComboBox prefHeight="27.0" prefWidth="85.0" promptText="miles">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
+                                    </ComboBox>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="255.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <ListView prefHeight="251.0" prefWidth="600.0" HBox.hgrow="ALWAYS">
+                                       <HBox.margin>
+                                          <Insets left="10.0" right="10.0" />
+                                       </HBox.margin>
+                                    </ListView>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </content></Tab>
+               </tabs>
+            </TabPane>
+         </children>
+      </HBox>
+      <HBox alignment="BOTTOM_CENTER" prefHeight="22.0" prefWidth="600.0">
+         <children>
+            <Label alignment="CENTER" prefHeight="24.0" prefWidth="600.0" text="\@Danfango - The Other Fandango" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font name="Charter Roman" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+   </children>
+</VBox>
