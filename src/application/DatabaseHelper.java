@@ -132,7 +132,7 @@ public class DatabaseHelper {
     public List getCinemas(int movieId){
         String sql;
         sql = "SELECT * FROM Cinemas INNER JOIN MoviesPlaying USING (cinemaId) WHERE movieId="+movieId+" ORDER BY cinemaId";
-
+//j
         List<String> list = new ArrayList<>();
         String data ="";
         try (Connection conn = this.connect();
