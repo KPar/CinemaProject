@@ -123,79 +123,127 @@ public class PublicController {
         }
 
         else if(filter.getSelectionModel().getSelectedItem() == "G"){
-            ObservableList<String> observableList = FXCollections.observableList(dbHelper.getMovies("G"));
-            tab1ListView.setItems(observableList);
-            tab1ListView.setCellFactory(lv -> new ListCell<String>() {
-                @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
+            if(dbHelper.getMovies("G") == null){
+                ObservableList<String> observableList = FXCollections.observableList(new ArrayList<>());
+                tab1ListView.setItems(observableList);
+            }
+            else {
+                ObservableList<String> observableList = FXCollections.observableList(dbHelper.getMovies("G"));
+                tab1ListView.setItems(observableList);
+                tab1ListView.setCellFactory(lv -> new ListCell<String>() {
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
 
-                    if (item == null) {
-                        setText(null);
-                        setStyle(null);
-                    } else {
-                        setText(item);
+                        if (item == null) {
+                            setText(null);
+                            setStyle(null);
+                        } else {
+                            setText(item);
+                        }
                     }
-                }
-            });
+                });
+            }
         }
 
         else if(filter.getSelectionModel().getSelectedItem() == "PG"){
-            ObservableList<String> observableList = FXCollections.observableList(dbHelper.getMovies("PG"));
-            tab1ListView.setItems(observableList);
-            tab1ListView.setCellFactory(lv -> new ListCell<String>() {
-                @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
+            if(dbHelper.getMovies("PG") == null){
+                ObservableList<String> observableList = FXCollections.observableList(new ArrayList<>());
+                tab1ListView.setItems(observableList);
+            }
+            else {
+                ObservableList<String> observableList = FXCollections.observableList(dbHelper.getMovies("PG"));
+                tab1ListView.setItems(observableList);
+                tab1ListView.setCellFactory(lv -> new ListCell<String>() {
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
 
-                    if (item == null) {
-                        setText(null);
-                        setStyle(null);
-                    } else {
-                        setText(item);
+                        if (item == null) {
+                            setText(null);
+                            setStyle(null);
+                        } else {
+                            setText(item);
+                        }
                     }
-                }
-            });
+                });
+            }
         }
 
         else if(filter.getSelectionModel().getSelectedItem() == "PG-13"){
-            ObservableList<String> observableList = FXCollections.observableList(dbHelper.getMovies("PG-13"));
-            tab1ListView.setItems(observableList);
-            tab1ListView.setCellFactory(lv -> new ListCell<String>() {
-                @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
+            if(dbHelper.getMovies("PG-13") == null){
+                ObservableList<String> observableList = FXCollections.observableList(new ArrayList<>());
+                tab1ListView.setItems(observableList);
+            }
+            else {
+                ObservableList<String> observableList = FXCollections.observableList(dbHelper.getMovies("PG-13"));
+                tab1ListView.setItems(observableList);
+                tab1ListView.setCellFactory(lv -> new ListCell<String>() {
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
 
-                    if (item == null) {
-                        setText(null);
-                        setStyle(null);
-                    } else {
-                        setText(item);
+                        if (item == null) {
+                            setText(null);
+                            setStyle(null);
+                        } else {
+                            setText(item);
+                        }
                     }
-                }
-            });
+                });
+            }
         }
 
         else if(filter.getSelectionModel().getSelectedItem() == "R"){
-            ObservableList<String> observableList = FXCollections.observableList(dbHelper.getMovies("R"));
-            tab1ListView.setItems(observableList);
-            tab1ListView.setCellFactory(lv -> new ListCell<String>() {
-                @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
+            if(dbHelper.getMovies("R") == null){
+                ObservableList<String> observableList = FXCollections.observableList(new ArrayList<>());
+                tab1ListView.setItems(observableList);
+            }
+            else {
+                ObservableList<String> observableList = FXCollections.observableList(dbHelper.getMovies("R"));
+                tab1ListView.setItems(observableList);
+                tab1ListView.setCellFactory(lv -> new ListCell<String>() {
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
 
-                    if (item == null) {
-                        setText(null);
-                        setStyle(null);
-                    } else {
-                        setText(item);
+                        if (item == null) {
+                            setText(null);
+                            setStyle(null);
+                        } else {
+                            setText(item);
+                        }
                     }
-                }
-            });
+                });
+            }
         }
 
         else if(filter.getSelectionModel().getSelectedItem() == "NC17"){
-            ObservableList<String> observableList = FXCollections.observableList(dbHelper.getMovies("NC17"));
+            if(dbHelper.getMovies("NC17") == null){
+                ObservableList<String> observableList = FXCollections.observableList(new ArrayList<>());
+                tab1ListView.setItems(observableList);
+            }
+            else {
+                ObservableList<String> observableList = FXCollections.observableList(dbHelper.getMovies("NC17"));
+                tab1ListView.setItems(observableList);
+                tab1ListView.setCellFactory(lv -> new ListCell<String>() {
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (item == null) {
+                            setText(null);
+                            setStyle(null);
+                        } else {
+                            setText(item);
+                        }
+                    }
+                });
+            }
+        }
+
+        else{
+            ObservableList<String> observableList = FXCollections.observableList(dbHelper.getMovies("All"));
             tab1ListView.setItems(observableList);
             tab1ListView.setCellFactory(lv -> new ListCell<String>() {
                 @Override
@@ -211,12 +259,9 @@ public class PublicController {
                 }
             });
         }
-
-        else{
-            ObservableList<String> observableList = FXCollections.observableList(new ArrayList<>());
-            tab1ListView.setItems(observableList);
-        }
     }
+
+
 
     public void cinemaApply(ActionEvent e){
         System.out.println("cinema list filtered to address");
