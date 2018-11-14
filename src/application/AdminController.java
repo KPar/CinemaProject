@@ -13,7 +13,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.control.TextField;
-
 import javax.swing.*;
 import java.io.IOException;
 import java.util.stream.Collectors;

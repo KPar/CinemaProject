@@ -16,7 +16,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -103,7 +102,120 @@ public class PublicController {
 
 
     public void movieApply(ActionEvent e){
-        System.out.println("Movies are listed");
+        dbHelper=new DatabaseHelper();
+
+        if(filter.getSelectionModel().getSelectedItem() == "All"){
+            ObservableList<String> observableList = FXCollections.observableList(dbHelper.getMovies("All"));
+            tab1ListView.setItems(observableList);
+            tab1ListView.setCellFactory(lv -> new ListCell<String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (item == null) {
+                        setText(null);
+                        setStyle(null);
+                    } else {
+                        setText(item);
+                    }
+                }
+            });
+        }
+
+        else if(filter.getSelectionModel().getSelectedItem() == "G"){
+            ObservableList<String> observableList = FXCollections.observableList(dbHelper.getMovies("G"));
+            tab1ListView.setItems(observableList);
+            tab1ListView.setCellFactory(lv -> new ListCell<String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (item == null) {
+                        setText(null);
+                        setStyle(null);
+                    } else {
+                        setText(item);
+                    }
+                }
+            });
+        }
+
+        else if(filter.getSelectionModel().getSelectedItem() == "PG"){
+            ObservableList<String> observableList = FXCollections.observableList(dbHelper.getMovies("PG"));
+            tab1ListView.setItems(observableList);
+            tab1ListView.setCellFactory(lv -> new ListCell<String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (item == null) {
+                        setText(null);
+                        setStyle(null);
+                    } else {
+                        setText(item);
+                    }
+                }
+            });
+        }
+
+        else if(filter.getSelectionModel().getSelectedItem() == "PG-13"){
+            ObservableList<String> observableList = FXCollections.observableList(dbHelper.getMovies("PG-13"));
+            tab1ListView.setItems(observableList);
+            tab1ListView.setCellFactory(lv -> new ListCell<String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (item == null) {
+                        setText(null);
+                        setStyle(null);
+                    } else {
+                        setText(item);
+                    }
+                }
+            });
+        }
+
+        else if(filter.getSelectionModel().getSelectedItem() == "R"){
+            ObservableList<String> observableList = FXCollections.observableList(dbHelper.getMovies("R"));
+            tab1ListView.setItems(observableList);
+            tab1ListView.setCellFactory(lv -> new ListCell<String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (item == null) {
+                        setText(null);
+                        setStyle(null);
+                    } else {
+                        setText(item);
+                    }
+                }
+            });
+        }
+
+        else if(filter.getSelectionModel().getSelectedItem() == "NC17"){
+            ObservableList<String> observableList = FXCollections.observableList(dbHelper.getMovies("NC17"));
+            tab1ListView.setItems(observableList);
+            tab1ListView.setCellFactory(lv -> new ListCell<String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (item == null) {
+                        setText(null);
+                        setStyle(null);
+                    } else {
+                        setText(item);
+                    }
+                }
+            });
+        }
+
+        else{
+            ObservableList<String> observableList = FXCollections.observableList(new ArrayList<>());
+            tab1ListView.setItems(observableList);
+        }
     }
 
     public void cinemaApply(ActionEvent e){
