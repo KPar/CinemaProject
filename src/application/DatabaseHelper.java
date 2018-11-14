@@ -146,7 +146,7 @@ public class DatabaseHelper {
 
                     data=rs.getString("cinemaName")+"\n"+"Located at: ("+rs.getString("locationX")
                             +","+rs.getString("locationY")+")\n"+"At "+rs.getInt("showtimeHour")
-                    +":"+rs.getInt("showtimeMinute")+rs.getString("showtimeAMPM");
+                    +":"+rs.getInt("showtimeMinute")+" "+rs.getString("showtimeAMPM");
                     list.add(data);
                 }
                 return list;

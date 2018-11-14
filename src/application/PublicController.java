@@ -76,9 +76,16 @@ public class PublicController {
                 public void handle(MouseEvent event) {
                     if(event.getClickCount()==2){
                         tab1ListView.getSelectionModel().getSelectedItem();
-                        List list= dbHelper.getCinemas(tab1ListView.getSelectionModel().getSelectedIndex());
-                        ObservableList<String> observableList = FXCollections.observableList(list);
-                        tab1ListView.setItems(observableList);
+                        System.out.println(tab1ListView.getSelectionModel().getSelectedIndex());
+                        List list= dbHelper.getCinemas(tab1ListView.getSelectionModel().getSelectedIndex()+1);
+                        if(list!=null){
+                            ObservableList<String> observableList = FXCollections.observableList(list);
+                            tab1ListView.setItems(observableList);
+                        }else{
+                            ObservableList<String> observableList = FXCollections.observableList(new ArrayList<>());
+                            tab1ListView.setItems(observableList);
+                        }
+
                     }
                 }
             });
