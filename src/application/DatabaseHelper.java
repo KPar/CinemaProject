@@ -186,7 +186,7 @@ public class DatabaseHelper {
         }
     }
 
-    public boolean addMovie(String movieTitle, String rating, int hour, int minute, String timePeriod, int cinemaId){
+   /* public boolean addMovie(String movieTitle, String rating, int hour, int minute, String timePeriod, int cinemaId){
         //first check that on the existence of movieTitle in Movies table
         //if it does exist: do query from Movies to get the movieId to add row to MoviesPlaying
         //else 1) add it to Movies, 2) query for movieId, 3) add row to MoviesPlaying
@@ -242,7 +242,7 @@ public class DatabaseHelper {
         }
         return true;
     }
-
+*/
 
 
 }

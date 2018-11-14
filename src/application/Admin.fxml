@@ -13,17 +13,17 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AdminController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AdminController">
     <children>
         <HBox prefHeight="35.0" prefWidth="600.0">
             <children>
-                <Label alignment="CENTER" contentDisplay="TOP" prefHeight="37.0" prefWidth="109.0" text="Danfango" HBox.hgrow="ALWAYS">
+                <Label alignment="CENTER" contentDisplay="TOP" prefHeight="37.0" prefWidth="109.0" styleClass="Label-Danfango" stylesheets="@style.css" text="Danfango" HBox.hgrow="ALWAYS">
                     <font>
                         <Font name="Charter Roman" size="21.0" />
                     </font>
                 </Label>
                 <Region prefHeight="35.0" prefWidth="100.0" HBox.hgrow="ALWAYS" />
-            <Label alignment="CENTER" prefHeight="35.0" prefWidth="150.0" text="Administrator">
+            <Label alignment="CENTER" prefHeight="35.0" prefWidth="150.0" style="-fx-text-fill: orange;" styleClass="Administrator" stylesheets="@style.css" text="Administrator">
                <font>
                   <Font name="Rockwell" size="18.0" />
                </font>
@@ -206,7 +206,7 @@
         </HBox>
         <HBox alignment="BOTTOM_CENTER" prefHeight="22.0" prefWidth="600.0">
             <children>
-                <Label alignment="CENTER" prefHeight="24.0" prefWidth="600.0" text="\@Danfango - The Other Fandango" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                <Label alignment="CENTER" prefHeight="24.0" prefWidth="600.0" styleClass="Label-Danfango" stylesheets="@style.css" text="\@Danfango - The Other Fandango" textAlignment="CENTER" HBox.hgrow="ALWAYS">
                     <font>
                         <Font name="Charter Roman" size="12.0" />
                     </font>

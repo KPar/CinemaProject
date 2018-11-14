@@ -1,0 +1,30 @@
+.root {
+-fx-base: rgb(50, 50, 50);
+-fx-background: rgb(50, 50, 50);
+-fx-control-inner-background:  rgb(70, 70, 70);
+}
+
+.Label-Danfango{
+   -fx-text-fill: #FF4500;
+}
+
+.label-cc{
+   -fx-text-fill: #FF4500;
+}
+
+TextField{
+    -fx-text-fill:#F2F4F4;
+    -fx-prompt-text-fill: #F2F4F4;
+    -fx-control-inner-background:  rgb(70, 70, 70);
+}
+
+.tab{
+    -fx-pref-width: 300;
+    -fx-background-color: linear-gradient(to top, -fx-base, derive(-fx-base,30%));
+}
+
+.tab-header-background {
+    -fx-background-color:transparent
+}
+
+
