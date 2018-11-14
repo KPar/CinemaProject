@@ -13,20 +13,17 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AdminController">
     <children>
         <HBox prefHeight="35.0" prefWidth="600.0">
             <children>
-                <Label contentDisplay="TOP" prefHeight="50.0" prefWidth="151.0" text="Danfango" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                <Label alignment="CENTER" contentDisplay="TOP" prefHeight="37.0" prefWidth="109.0" text="Danfango" HBox.hgrow="ALWAYS">
                     <font>
                         <Font name="Charter Roman" size="21.0" />
                     </font>
-                    <padding>
-                        <Insets left="20.0" />
-                    </padding>
                 </Label>
-                <Region prefHeight="50.0" prefWidth="340.0" HBox.hgrow="ALWAYS" />
-            <Label alignment="CENTER" prefHeight="35.0" prefWidth="199.0" text="Administrator">
+                <Region prefHeight="35.0" prefWidth="100.0" HBox.hgrow="ALWAYS" />
+            <Label alignment="CENTER" prefHeight="35.0" prefWidth="150.0" text="Administrator">
                <font>
                   <Font name="Rockwell" size="18.0" />
                </font>
@@ -34,6 +31,12 @@
                   <Insets />
                </HBox.margin>
             </Label>
+            <Region prefHeight="35.0" prefWidth="100.0" HBox.hgrow="ALWAYS" />
+            <Button mnemonicParsing="false" onAction="#Public" prefHeight="27.0" prefWidth="101.0" text="Sign-Out">
+               <HBox.margin>
+                  <Insets bottom="5.0" right="10.0" top="5.0" />
+               </HBox.margin>
+            </Button>
             </children>
         </HBox>
         <HBox prefHeight="327.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
