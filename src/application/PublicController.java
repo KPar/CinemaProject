@@ -27,7 +27,10 @@ public class PublicController {
     DatabaseHelper dbHelper;
 
     @FXML
-    private TextField address;
+    private TextField x_address;
+
+    @FXML
+    private TextField y_address;
 
     @FXML
     private ComboBox filter;
@@ -48,6 +51,24 @@ public class PublicController {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (!newValue.matches("\\d*")) {
                     miles.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        } );
+
+        x_address.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    x_address.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        } );
+
+        y_address.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    y_address.setText(newValue.replaceAll("[^\\d]", ""));
                 }
             }
         } );

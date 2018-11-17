@@ -1,5 +1,7 @@
 package application;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,7 +30,10 @@ public class AdminController {
         private TextField cinemaname;
 
         @FXML
-        private TextField address;
+        private TextField x_address;
+
+        @FXML
+        private TextField y_address;
 
         @FXML
         private ComboBox rating;
@@ -45,24 +50,31 @@ public class AdminController {
         @FXML
         private ComboBox daytime;
 
-        @FXML
-        private ComboBox cinemahours;
-
-        @FXML
-        private ComboBox cinemaminutes;
-
-        @FXML
-        private ComboBox cinemadaytime;
-
     public void initialize(){
         rating.getItems().addAll("G","PG","PG-13","R","NC17");
         cinema.getItems().addAll("all cinemas in db");
         hours.getItems().addAll(IntStream.rangeClosed(1,12).boxed().collect(Collectors.toList()));
         minutes.getItems().addAll(IntStream.rangeClosed(0,59).boxed().collect(Collectors.toList()));
         daytime.getItems().addAll("am","pm");
-        cinemahours.getItems().addAll(IntStream.rangeClosed(1,12).boxed().collect(Collectors.toList()));
-        cinemaminutes.getItems().addAll(IntStream.rangeClosed(0,60).boxed().collect(Collectors.toList()));
-        cinemadaytime.getItems().addAll("am","pm");
+
+        x_address.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    x_address.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        } );
+
+        y_address.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    y_address.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        } );
+
     }
 
         public void Public(ActionEvent event) throws IOException {
@@ -110,20 +122,8 @@ public class AdminController {
                 AlertBox("cinema", "cinema field is empty.");
             }
 
-            else if(address.getText().isEmpty()){
-                AlertBox("address", "address field is empty.");
-            }
-
-            else if(cinemahours.getSelectionModel().getSelectedItem() == null){
-                AlertBox("hours", "no hours selected");
-            }
-
-            else if(cinemaminutes.getSelectionModel().getSelectedItem() == null){
-                AlertBox("minutes", "no minutes selected");
-            }
-
-            else if(cinemadaytime.getSelectionModel().getSelectedItem() == null){
-                AlertBox("daytime", "no daytime selected");
+            else if(x_address.getText().isEmpty() || y_address.getText().isEmpty()){
+                AlertBox("address", "address field is incomplete.");
             }
 
             else

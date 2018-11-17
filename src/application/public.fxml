@@ -15,27 +15,27 @@
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PublicController">
    <children>
-      <HBox prefHeight="35.0" prefWidth="600.0">
+      <HBox prefHeight="35.0" prefWidth="800.0">
          <children>
-            <Label contentDisplay="TOP" prefHeight="50.0" prefWidth="151.0" styleClass="Label-Danfango" stylesheets="@style.css" text="Danfango" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+            <Label alignment="CENTER" contentDisplay="TOP" prefHeight="37.0" prefWidth="109.0" styleClass="Label-Danfango" stylesheets="@style.css" text="Danfango" HBox.hgrow="ALWAYS">
                <font>
                   <Font name="Charter Roman" size="21.0" />
                </font>
-               <padding>
-                  <Insets left="20.0" />
-               </padding>
             </Label>
-            <Region prefHeight="50.0" prefWidth="340.0" HBox.hgrow="ALWAYS" />
+            <Region prefHeight="34.0" prefWidth="610.0" HBox.hgrow="ALWAYS" />
             <Button fx:id="AdminButton" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#Admin" text="Admin.">
                <HBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                  <Insets left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
             </Button>
          </children>
+         <VBox.margin>
+            <Insets bottom="5.0" top="5.0" />
+         </VBox.margin>
       </HBox>
       <HBox prefHeight="327.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
          <children>
-            <TabPane prefHeight="327.0" prefWidth="603.0" stylesheets="@style.css" tabClosingPolicy="UNAVAILABLE" HBox.hgrow="ALWAYS">
+            <TabPane prefHeight="327.0" prefWidth="800.0" stylesheets="@style.css" tabClosingPolicy="UNAVAILABLE" HBox.hgrow="ALWAYS">
                <tabs>
                   <Tab closable="false" text="Movies">
                      <content>
@@ -74,9 +74,19 @@
                            <children>
                               <HBox prefHeight="45.0" prefWidth="600.0">
                                  <children>
-                                    <TextField fx:id="address" prefHeight="27.0" prefWidth="302.0" promptText="Address" HBox.hgrow="ALWAYS">
+                                    <Label styleClass="Label-Danfango" stylesheets="@style.css" text="Address: ">
                                        <HBox.margin>
-                                          <Insets bottom="10.0" left="10.0" top="10.0" />
+                                          <Insets bottom="10.0" left="15.0" right="10.0" top="15.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextField alignment="CENTER" prefHeight="27.0" prefWidth="50.0" promptText="x" fx:id="x_address">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
+                                    </TextField>
+                                    <TextField fx:id="y_address" alignment="CENTER" prefHeight="27.0" prefWidth="50.0" promptText="y">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" top="10.0" />
                                        </HBox.margin>
                                     </TextField>
                                     <Label prefHeight="27.0" prefWidth="49.0" styleClass="label-cc" stylesheets="@style.css" text="Within: ">

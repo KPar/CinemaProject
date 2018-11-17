@@ -20,12 +20,16 @@ TextField{
 }
 
 .tab{
-    -fx-pref-width: 300;
-    -fx-background-color: linear-gradient(to top, -fx-base, derive(-fx-base,30%));
+    -fx-pref-width: 250;
+    -fx-background-color: rgb(40, 40, 40);
 }
 
 .tab-header-background {
     -fx-background-color:transparent
+}
+
+.tab:selected{
+-fx-background-color: linear-gradient(to top, -fx-base, derive(-fx-base,30%));
 }
 
 .list-view:focused .list-cell:filled:focused:selected {
