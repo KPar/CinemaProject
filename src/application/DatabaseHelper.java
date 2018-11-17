@@ -81,20 +81,48 @@ public class DatabaseHelper {
 
     public List getMovies(int cinemaId){
         String sql;
-        sql = "SELECT * FROM Movies INNER JOIN MoviesPlaying USING (MovieId) WHERE cinemaId ="+cinemaId+" ORDER BY showtimeHour AND showtimeAMPM";
-
+        sql = "SELECT DISTINCT movieId FROM MoviesPlaying WHERE cinemaId ="+ cinemaId;
         List<String> list = new ArrayList<>();
         String data ="";
+        Boolean isFirst = true;
         try (Connection conn = this.connect();
              Statement stmt  = conn.createStatement();
              ResultSet rs    = stmt.executeQuery(sql)){
-
+            System.out.println("hi");
             if (!rs.isBeforeFirst()){
                 return null;
             }else{
                 while((rs.next())){
-                    data=rs.getString("movieTitle")+"\n"+rs.getString("rating");
+                    int movieId = rs.getInt("movieId");
+                    String sql2 = "SELECT * FROM Cinemas INNER JOIN MoviesPlaying USING (cinemaId) INNER JOIN Movies USING (movieId) WHERE movieId ="+ movieId + " AND cinemaId="+cinemaId
+                            +" ORDER BY showtimeAMPM, showtimeHour, showtimeMinute ASC";
+                    try (Connection conn2 = this.connect();
+                         Statement stmt2  = conn2.createStatement();
+                         ResultSet rs2    = stmt2.executeQuery(sql2)){
+                        if (!rs2.isBeforeFirst()){
+                            return null;
+                        }else {
+                            while ((rs2.next())) {
+                                if(isFirst){
+                                    data=data.concat(rs2.getString("movieTitle")+"\n"+"Rated: "+rs2.getString("rating")+"\n"+"Playing at ");
+                                    isFirst=false;
+                                }
+                                if(rs2.getInt("showtimeMinute")==0) {
+                                    data = data.concat(" "+rs2.getInt("showtimeHour")
+                                            + ":00" + " " + rs2.getString("showtimeAMPM"));
+                                }else{
+                                    data = data.concat(" "+rs2.getInt("showtimeHour")
+                                            +":"+rs2.getInt("showtimeMinute")+" "+rs2.getString("showtimeAMPM"));
+                                }
+                            }
+                        }
+                    } catch (SQLException e) {
+                        System.out.println(e.getMessage());
+                        return null;
+                    }
+                    isFirst=true;
                     list.add(data);
+                    data="";
                 }
                 return list;
             }
@@ -129,12 +157,51 @@ public class DatabaseHelper {
         }
     }
 
+    public int getMovieId(String movieTitle){
+        String sql = "SELECT * FROM Movies WHERE movieTitle="+movieTitle;
+
+        try (Connection conn = this.connect();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql)){
+
+            if (!rs.isBeforeFirst()){
+                return -1;
+            }else{
+                rs.next();
+                return rs.getInt("movieId");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return -1;
+        }
+
+    }
+
+    public int getCinemaId(String cinemaName){
+        String sql = "SELECT * FROM Cinemas WHERE cinemaName="+cinemaName;
+
+        try (Connection conn = this.connect();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql)){
+
+            if (!rs.isBeforeFirst()){
+                return -1;
+            }else{
+                rs.next();
+                return rs.getInt("cinemaId");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return -1;
+        }
+    }
+
     public List getCinemas(int movieId){
         String sql;
-        sql = "SELECT * FROM Cinemas INNER JOIN MoviesPlaying USING (cinemaId) WHERE movieId="+movieId+" ORDER BY cinemaId";
-//j
+        sql = "SELECT DISTINCT cinemaId FROM MoviesPlaying WHERE movieId ="+ movieId;
         List<String> list = new ArrayList<>();
         String data ="";
+        Boolean isFirst = true;
         try (Connection conn = this.connect();
              Statement stmt  = conn.createStatement();
              ResultSet rs    = stmt.executeQuery(sql)){
@@ -143,11 +210,37 @@ public class DatabaseHelper {
                 return null;
             }else{
                 while((rs.next())){
-
-                    data=rs.getString("cinemaName")+"\n"+"Located at: ("+rs.getString("locationX")
-                            +","+rs.getString("locationY")+")\n"+"At "+rs.getInt("showtimeHour")
-                    +":"+rs.getInt("showtimeMinute")+" "+rs.getString("showtimeAMPM");
+                    int cinemaId = rs.getInt("cinemaId");
+                    String sql2 = "SELECT * FROM Cinemas INNER JOIN MoviesPlaying USING (cinemaId) WHERE movieId ="+ movieId + " AND cinemaId="+cinemaId
+                            +" ORDER BY showtimeAMPM, showtimeHour, showtimeMinute ASC";
+                    try (Connection conn2 = this.connect();
+                         Statement stmt2  = conn2.createStatement();
+                         ResultSet rs2    = stmt2.executeQuery(sql2)){
+                        if (!rs2.isBeforeFirst()){
+                            return null;
+                        }else {
+                            while ((rs2.next())) {
+                                if(isFirst){
+                                    data=data.concat(rs2.getString("cinemaName")+"\n"+"Located on: ("+rs2.getString("locationX")
+                                            +","+rs2.getString("locationY")+")\n"+"Playing at ");
+                                    isFirst=false;
+                                }
+                                if(rs2.getInt("showtimeMinute")==0) {
+                                    data = data.concat(" "+rs2.getInt("showtimeHour")
+                                            + ":00" + " " + rs2.getString("showtimeAMPM"));
+                                }else{
+                                    data = data.concat(" "+rs2.getInt("showtimeHour")
+                                            +":"+rs2.getInt("showtimeMinute")+" "+rs2.getString("showtimeAMPM"));
+                                }
+                            }
+                        }
+                    } catch (SQLException e) {
+                        System.out.println(e.getMessage());
+                        return null;
+                    }
+                    isFirst=true;
                     list.add(data);
+                    data="";
                 }
                 return list;
             }
@@ -183,11 +276,7 @@ public class DatabaseHelper {
         }
     }
 
-    public boolean addMovie(String movieTitle, String rating, int hour, int minute, String timePeriod, int cinemaId){
-        //first check that on the existence of movieTitle in Movies table
-        //if it does exist: do query from Movies to get the movieId to add row to MoviesPlaying
-        //else 1) add it to Movies, 2) query for movieId, 3) add row to MoviesPlaying
-
+    public boolean addMovie(String movieTitle, String rating){
         String sql;
         sql = "SELECT * FROM Movies WHERE movieTitle='"+movieTitle+"'";
 
@@ -202,36 +291,35 @@ public class DatabaseHelper {
                     pstmt.setString(1, movieTitle);
                     pstmt.setString(2, rating);
                     pstmt.executeUpdate();
-                    addMovie(movieTitle,rating,hour,minute,timePeriod,cinemaId);  /*now it should start method again and
-                                                                                 see that movie exists, so it just goes
-                                                                                to else statement*/
                 } catch (SQLException e) {
                     System.out.println(e.getMessage());
                     return false;
                 }
             }else{
-                rs.next();
-                int movieId = rs.getInt("movieId");
-                sql = "INSERT INTO MoviesPlaying(movieId,showtimeHour,showtimeMinute,showtimeAMPM, cinemaId) VALUES(?,?,?,?,?)";
-                try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                    pstmt.setInt(1, movieId);
-                    pstmt.setInt(2, hour);
-                    pstmt.setInt(3, minute);
-                    pstmt.setString(4, timePeriod);
-                    pstmt.setInt(5, cinemaId);
-                    pstmt.executeUpdate();
-                } catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                    return false;
-                }
+                return false;
 
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             return false;
         }
+        return true;
+    }
 
-
+    public boolean addShowtime(int movieId, int hour, int minute, String timePeriod, int cinemaId){
+        String sql;
+        sql = "INSERT INTO MoviesPlaying(movieId,showtimeHour,showtimeMinute,showtimeAMPM, cinemaId) VALUES(?,?,?,?,?)";
+        try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, movieId);
+            pstmt.setInt(2, hour);
+            pstmt.setInt(3, minute);
+            pstmt.setString(4, timePeriod);
+            pstmt.setInt(5, cinemaId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
         return true;
     }
 

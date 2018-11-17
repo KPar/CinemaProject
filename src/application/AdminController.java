@@ -58,7 +58,7 @@ public class AdminController {
         rating.getItems().addAll("G","PG","PG-13","R","NC17");
         cinema.getItems().addAll("all cinemas in db");
         hours.getItems().addAll(IntStream.rangeClosed(1,12).boxed().collect(Collectors.toList()));
-        minutes.getItems().addAll(IntStream.rangeClosed(0,60).boxed().collect(Collectors.toList()));
+        minutes.getItems().addAll(IntStream.rangeClosed(0,59).boxed().collect(Collectors.toList()));
         daytime.getItems().addAll("am","pm");
         cinemahours.getItems().addAll(IntStream.rangeClosed(1,12).boxed().collect(Collectors.toList()));
         cinemaminutes.getItems().addAll(IntStream.rangeClosed(0,60).boxed().collect(Collectors.toList()));

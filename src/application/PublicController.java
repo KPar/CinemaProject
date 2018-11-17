@@ -116,7 +116,7 @@ public class PublicController {
                 public void handle(MouseEvent event) {
                     if(event.getClickCount()==2){
                         tab2ListView.getSelectionModel().getSelectedItem();
-                        List list= dbHelper.getMovies("All");
+                        List list= dbHelper.getMovies(tab2ListView.getSelectionModel().getSelectedIndex()+1);
                         ObservableList<String> observableList = FXCollections.observableList(list);
                         tab2ListView.setItems(observableList);
                     }
