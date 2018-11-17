@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.RadioButton;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -49,6 +50,24 @@ public class AdminController {
 
         @FXML
         private ComboBox daytime;
+
+        @FXML
+        private RadioButton All;
+
+        @FXML
+        private RadioButton G;
+
+        @FXML
+        private RadioButton PG;
+
+        @FXML
+        private RadioButton PG13;
+
+        @FXML
+        private RadioButton R;
+
+        @FXML
+        private RadioButton NC17;
 
     public void initialize(){
         rating.getItems().addAll("G","PG","PG-13","R","NC17");
