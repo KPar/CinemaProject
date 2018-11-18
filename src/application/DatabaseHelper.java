@@ -444,9 +444,7 @@ public class DatabaseHelper {
                             return false;
                         }
                     }
-                }
-
-            }else{
+                } else{
                 return false;
             }
         } catch (SQLException e) {
