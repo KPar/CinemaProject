@@ -88,13 +88,14 @@ public class AdminController {
         private ListView<String> showtimesListView;
 
     public void initialize(){
+        dbHelper=new DatabaseHelper();
+
         rating.getItems().addAll("G","PG","PG-13","R","NC17");
         hours.getItems().addAll(IntStream.rangeClosed(1,12).boxed().collect(Collectors.toList()));
         minutes.getItems().addAll(IntStream.rangeClosed(0,59).boxed().collect(Collectors.toList()));
         daytime.getItems().addAll("am","pm");
-        movieS.getItems().addAll("movies in database");
-        cinemaS.getItems().addAll("cinemas in database");
-        dbHelper=new DatabaseHelper();
+        movieS.getItems().addAll(dbHelper.getMovies("All"));
+        cinemaS.getItems().addAll(dbHelper.getCinemas());
 
         x_address.textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -331,7 +332,7 @@ public class AdminController {
             }
 
             else
-                //dbHelper.addShowtime(movieS.getSelectionModel().getSelectedIndex(),hours.getSelectionModel().getSelectedIndex()+1,minutes.getSelectionModel().getSelectedIndex(),daytime.getSelectionModel().getSelectedItem().toString(),cinemaS.getSelectionModel().getSelectedIndex());
+                dbHelper.addShowtime(movieS.getSelectionModel().getSelectedIndex(),Integer.parseInt(hours.getSelectionModel().getSelectedItem().toString()),Integer.parseInt(minutes.getSelectionModel().getSelectedItem().toString()),daytime.getSelectionModel().getSelectedItem().toString().toUpperCase(),cinemaS.getSelectionModel().getSelectedIndex());
                 AlertBox("Showtime", "Showtime added");
 
         }

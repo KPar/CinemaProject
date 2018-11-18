@@ -449,7 +449,9 @@ public class DatabaseHelper {
                 //add restrictions to restriction table
                 for(String rating : restrictionList){
                         sql = "INSERT INTO Restrictions (cinemaId,restrictedRating) VALUES(?,?)";
-                        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                    System.out.println("hi");
+
+                    try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                             pstmt.setInt(1, getCinemaId(cinemaName));
                             pstmt.setString(2, rating);
                             pstmt.executeUpdate();
@@ -467,6 +469,5 @@ public class DatabaseHelper {
         }
         return true;
     }
-
 
 }
