@@ -409,7 +409,7 @@ public class DatabaseHelper {
         }
         return true;
     }
-    public boolean addCinema(String cinemaName, int locationX, int locationY, int[] restrictions){
+    public boolean addCinema(String cinemaName, int locationX, int locationY, String[] restrictions){
         String sql;
         sql = "SELECT * FROM Cinemas WHERE cinemaName='"+cinemaName+"'";
 
@@ -433,11 +433,11 @@ public class DatabaseHelper {
 
                 //add restrictions to restriction table
                 for(int i=0; i<restrictions.length;i++){
-                    if(restrictions[i]==1){
+
                         sql = "INSERT INTO Restrictions (cinemaId,restrictedRating) VALUES(?,?)";
                         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                             pstmt.setInt(1, getCinemaId(cinemaName));
-                            pstmt.setInt(2, restrictions[i]);
+                            pstmt.setString(2, restrictions[i]);
                             pstmt.executeUpdate();
                         } catch (SQLException e) {
                             System.out.println(e.getMessage());
