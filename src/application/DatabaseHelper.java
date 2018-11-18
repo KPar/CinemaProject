@@ -297,6 +297,8 @@ public class DatabaseHelper {
             stmt.executeUpdate(sql);
             sql = "DELETE FROM Cinemas WHERE cinemaId="+cinemaId;
             stmt.executeUpdate(sql);
+            sql = "DELETE FROM Restrictions WHERE cinemaId="+cinemaId;
+            stmt.executeUpdate(sql);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
