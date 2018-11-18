@@ -58,17 +58,12 @@
                                                         <Insets bottom="10.0" left="10.0" top="10.0" />
                                                     </HBox.margin>
                                                 </TextField>
-                                    <ComboBox fx:id="rating" prefHeight="27.0" prefWidth="93.0" promptText="Rating">
+                                    <ComboBox fx:id="rating" prefHeight="27.0" prefWidth="103.0" promptText="Rating">
                                        <HBox.margin>
                                           <Insets bottom="10.0" left="10.0" top="10.0" />
                                        </HBox.margin>
                                     </ComboBox>
-                                                <ComboBox fx:id="cinema" prefHeight="27.0" prefWidth="106.0" promptText="Cinema">
-                                                    <HBox.margin>
-                                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                                    </HBox.margin>
-                                                </ComboBox>
-                                    <Button mnemonicParsing="false" onAction="#movieApply" prefWidth="60.0" text="Add">
+                                    <Button mnemonicParsing="false" onAction="#movieApply" prefHeight="27.0" prefWidth="82.0" text="Add">
                                        <HBox.margin>
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </HBox.margin>
