@@ -139,7 +139,7 @@
                                           <Insets left="10.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <RadioButton fx:id="All" mnemonicParsing="false" text="All" />
+                                    <RadioButton fx:id="All" mnemonicParsing="false" selected="true" text="All" />
                                     <RadioButton fx:id="G" mnemonicParsing="false" text="G" />
                                     <RadioButton fx:id="PG" mnemonicParsing="false" text="PG" />
                                     <RadioButton fx:id="PG13" mnemonicParsing="false" text="PG-13" />
