@@ -157,6 +157,32 @@ public class DatabaseHelper {
         }
     }
 
+    public List getCinemas(int x, int y, int radius){
+        String sql;
+        sql = "SELECT * FROM Cinemas WHERE (locationX BETWEEN "+(x-radius)+" AND "+(x+radius)+") AND (locationY BETWEEN "+(y-radius)+" AND "+(y+radius)+")";
+
+        List<String> list = new ArrayList<>();
+        String data ="";
+        try (Connection conn = this.connect();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql)){
+
+            if (!rs.isBeforeFirst()){
+                return null;
+            }else{
+                while((rs.next())){
+                    data=rs.getString("cinemaName")+"\n"+"Located at: ("+rs.getString("locationX")+","+rs.getString("locationY")+")";
+                    list.add(data);
+                }
+                return list;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+
     public int getMovieId(String movieTitle){
         String sql = "SELECT * FROM Movies WHERE movieTitle='"+movieTitle+"'";
 
