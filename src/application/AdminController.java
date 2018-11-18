@@ -2,6 +2,8 @@ package application;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -10,18 +12,17 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.RadioButton;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.scene.control.TextField;
+
 import javax.swing.*;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -76,6 +77,15 @@ public class AdminController {
 
         @FXML
         private RadioButton NC17;
+
+        @FXML
+        private ListView<String> movieListView;
+
+        @FXML
+        private ListView<String> cinemaListView;
+
+        @FXML
+        private ListView<String> showtimesListView;
 
     public void initialize(){
         rating.getItems().addAll("G","PG","PG-13","R","NC17");
@@ -180,6 +190,53 @@ public class AdminController {
                     All.setSelected(false);
             }
         });
+
+        List list = dbHelper.getMovies("All");
+        if(list!=null){
+            ObservableList<String> observableList = FXCollections.observableList(list);
+            movieListView.setItems(observableList);
+            movieListView.setCellFactory(lv -> new ListCell<String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (item == null) {
+                        setText(null);
+                        setStyle(null);
+                    } else {
+                        setText(item);
+                    }
+                }
+            });
+        }
+            else {
+            ObservableList<String> observableList = FXCollections.observableList(new ArrayList<>());
+            movieListView.setItems(observableList);
+        }
+
+        list = dbHelper.getCinemas();
+        if(list!=null) {
+            ObservableList<String> observableList = FXCollections.observableList(list);
+            cinemaListView.setItems(observableList);
+            cinemaListView.setCellFactory(lv -> new ListCell<String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (item == null) {
+                        setText(null);
+                        setStyle(null);
+                    } else {
+                        setText(item);
+                    }
+                }
+            });
+        }
+            else{
+                ObservableList<String> observableList = FXCollections.observableList(new ArrayList<>());
+                cinemaListView.setItems(observableList);
+            }
+
     }
 
         public void Public(ActionEvent event) throws IOException {
@@ -195,23 +252,28 @@ public class AdminController {
 
         public void movieApply(ActionEvent e){
             if(movietitle.getText().isEmpty()){
-                AlertBox("movietitle", "movie title field is empty.");
+                AlertBox("Movietitle", "Movie title field is empty.");
+                return;
             }
 
             else if(rating.getSelectionModel().getSelectedItem() == null){
-                AlertBox("rating", "no rating selected");
+                AlertBox("Rating", "No rating selected");
+                return;
             }
 
             else
-                AlertBox("Movie added", "Movie added");
+                dbHelper.addMovie(movietitle.getText(),rating.getSelectionModel().getSelectedItem().toString());
+                System.out.println("movie added " + movietitle.getText() + " rating: " + rating.getSelectionModel().getSelectedItem().toString());
         }
 
         public void cinemaApply(ActionEvent e) {
             if (cinemaname.getText().isEmpty()) {
                 AlertBox("Cinema", "cinema field is empty.");
+                return;
             }
             else if (x_address.getText().isEmpty() || y_address.getText().isEmpty()) {
                 AlertBox("Address", "address field is incomplete.");
+                return;
             }
 
             else if (G.isSelected() || PG.isSelected() || PG13.isSelected() || R.isSelected() || NC17.isSelected()) {
@@ -245,35 +307,43 @@ public class AdminController {
         public void showtimeApply(ActionEvent e){
             if(movieS.getSelectionModel().getSelectedItem() == null){
                 AlertBox("Movie Title", "no movie selected");
+                return;
             }
 
             else if(cinemaS.getSelectionModel().getSelectedItem() == null){
                 AlertBox("Cinema", "no Cinema selected");
+                return;
             }
 
             else if(hours.getSelectionModel().getSelectedItem() == null){
                 AlertBox("hours", "no hours selected");
+                return;
             }
 
             else if(minutes.getSelectionModel().getSelectedItem() == null){
                 AlertBox("minutes", "no minutes selected");
+                return;
             }
 
             else if(daytime.getSelectionModel().getSelectedItem() == null){
                 AlertBox("daytime", "no daytime selected");
+                return;
             }
 
             else
+                //dbHelper.addShowtime(movieS.getSelectionModel().getSelectedIndex(),hours.getSelectionModel().getSelectedIndex()+1,minutes.getSelectionModel().getSelectedIndex(),daytime.getSelectionModel().getSelectedItem().toString(),cinemaS.getSelectionModel().getSelectedIndex());
                 AlertBox("Showtime", "Showtime added");
 
         }
 
         public void movieDelete(ActionEvent e){
-            AlertBox("delete", "Movie deleted");
+            System.out.println(movieListView.getSelectionModel().getSelectedItem());
+            //dbHelper.removeMovie(movieid);
+            AlertBox("Delete", "Movie deleted");
         }
 
         public void cinemaDelete(ActionEvent e){
-            AlertBox("delete", "Movie deleted");
+            AlertBox("Delete", "Cinema deleted");
         }
 
         private void AlertBox(String title, String message){
