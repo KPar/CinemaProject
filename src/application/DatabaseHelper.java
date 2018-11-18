@@ -158,7 +158,7 @@ public class DatabaseHelper {
     }
 
     public int getMovieId(String movieTitle){
-        String sql = "SELECT * FROM Movies WHERE movieTitle="+movieTitle;
+        String sql = "SELECT * FROM Movies WHERE movieTitle='"+movieTitle+"'";
 
         try (Connection conn = this.connect();
              Statement stmt  = conn.createStatement();
@@ -178,7 +178,7 @@ public class DatabaseHelper {
     }
 
     public int getCinemaId(String cinemaName){
-        String sql = "SELECT * FROM Cinemas WHERE cinemaName="+cinemaName;
+        String sql = "SELECT * FROM Cinemas WHERE cinemaName='"+cinemaName+"'";
 
         try (Connection conn = this.connect();
              Statement stmt  = conn.createStatement();

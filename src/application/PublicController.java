@@ -111,7 +111,8 @@ public class PublicController {
                         javafx.scene.control.Button closeButton = new javafx.scene.control.Button("OK");
                         closeButton.setOnAction(e -> window.close());
                         ListView<String> cinemalist = new ListView<String>();
-                        List list = dbHelper.getCinemas(tab1ListView.getSelectionModel().getSelectedIndex() + 1);
+                        String[] content=tab1ListView.getSelectionModel().getSelectedItem().split("\n");
+                        List list = dbHelper.getCinemas(dbHelper.getMovieId(content[0]));
                         if (list != null) {
                             ObservableList<String> observableList = FXCollections.observableList(list);
                             cinemalist.setItems(observableList);
@@ -174,7 +175,8 @@ public class PublicController {
                         javafx.scene.control.Button closeButton = new javafx.scene.control.Button("OK");
                         closeButton.setOnAction(e -> window.close());
                         ListView<String> movielist = new ListView<String>();
-                        List list= dbHelper.getMovies(tab2ListView.getSelectionModel().getSelectedIndex()+1);
+                        String[] content=tab2ListView.getSelectionModel().getSelectedItem().split("\n");
+                        List list = dbHelper.getMovies(dbHelper.getCinemaId(content[0]));
                         if (list != null) {
                             ObservableList<String> observableList = FXCollections.observableList(list);
                             movielist.setItems(observableList);
