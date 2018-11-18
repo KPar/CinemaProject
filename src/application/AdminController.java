@@ -28,7 +28,13 @@ public class AdminController {
         private TextField movietitle;
 
         @FXML
+        private ComboBox movieS;
+
+        @FXML
         private TextField cinemaname;
+
+        @FXML
+        private ComboBox cinemaS;
 
         @FXML
         private TextField x_address;
@@ -75,6 +81,8 @@ public class AdminController {
         hours.getItems().addAll(IntStream.rangeClosed(1,12).boxed().collect(Collectors.toList()));
         minutes.getItems().addAll(IntStream.rangeClosed(0,59).boxed().collect(Collectors.toList()));
         daytime.getItems().addAll("am","pm");
+        movieS.getItems().addAll("movies in database");
+        cinemaS.getItems().addAll("cinemas in database");
 
         x_address.textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -120,18 +128,6 @@ public class AdminController {
                 AlertBox("cinema", "no cinema selected");
             }
 
-            else if(hours.getSelectionModel().getSelectedItem() == null){
-                AlertBox("hours", "no hours selected");
-            }
-
-            else if(minutes.getSelectionModel().getSelectedItem() == null){
-                AlertBox("minutes", "no minutes selected");
-            }
-
-            else if(daytime.getSelectionModel().getSelectedItem() == null){
-                AlertBox("daytime", "no daytime selected");
-            }
-
             else
                 AlertBox("Movie added", "Movie added");
         }
@@ -149,20 +145,38 @@ public class AdminController {
                 AlertBox("Cinema added", "Cinema added");
         }
 
+        public void showtimeApply(ActionEvent e){
+            if(movieS.getSelectionModel().getSelectedItem() == null){
+                AlertBox("Movie Title", "no movie selected");
+            }
+
+            else if(cinemaS.getSelectionModel().getSelectedItem() == null){
+                AlertBox("Cinema", "no Cinema selected");
+            }
+
+            else if(hours.getSelectionModel().getSelectedItem() == null){
+                AlertBox("hours", "no hours selected");
+            }
+
+            else if(minutes.getSelectionModel().getSelectedItem() == null){
+                AlertBox("minutes", "no minutes selected");
+            }
+
+            else if(daytime.getSelectionModel().getSelectedItem() == null){
+                AlertBox("daytime", "no daytime selected");
+            }
+
+            else
+                AlertBox("Showtime", "Showtime added");
+
+        }
+
         public void movieDelete(ActionEvent e){
             AlertBox("delete", "Movie deleted");
         }
 
         public void cinemaDelete(ActionEvent e){
             AlertBox("delete", "Movie deleted");
-        }
-
-        public void moviedisplay(ActionEvent e){
-            AlertBox("display", "displays list of movies");
-        }
-
-        public void cinemadisplay(ActionEvent e){
-            AlertBox("display", "displays list of cinemas");
         }
 
         private void AlertBox(String title, String message){
@@ -184,6 +198,7 @@ public class AdminController {
 
             //Display window and wait for it to be closed before returning
             Scene scene = new Scene(layout);
+            scene.getStylesheets().add(this.getClass().getResource("style.css").toExternalForm());
             window.setScene(scene);
             window.showAndWait();
 

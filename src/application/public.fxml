@@ -43,16 +43,11 @@
                            <children>
                               <HBox prefHeight="40.0" prefWidth="600.0">
                                  <children>
-                                    <ComboBox fx:id="filter" prefHeight="27.0" prefWidth="120.0" promptText="Ratings">
+                                    <ComboBox fx:id="filter" onAction="#movieApply" prefHeight="27.0" prefWidth="120.0" promptText="Ratings">
                                        <HBox.margin>
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </HBox.margin>
                                     </ComboBox>
-                                    <Button mnemonicParsing="false" onAction="#movieApply" text="Apply">
-                                       <HBox.margin>
-                                          <Insets bottom="10.0" right="10.0" top="10.0" />
-                                       </HBox.margin>
-                                    </Button>
                                  </children>
                               </HBox>
                               <HBox prefHeight="258.0" prefWidth="600.0" VBox.vgrow="ALWAYS">

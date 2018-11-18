@@ -2,7 +2,8 @@
 -fx-base: rgb(50, 50, 50);
 -fx-background: rgb(50, 50, 50);
 -fx-control-inner-background:  rgb(70, 70, 70);
--fx-focus-color: rgb(60,60,60);
+-fx-focus-color: rgb(90,90,90);
+-fx-faint-focus-color: transparent;
 }
 
 .Label-Danfango{

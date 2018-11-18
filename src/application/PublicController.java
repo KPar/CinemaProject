@@ -229,6 +229,7 @@ public class PublicController {
         layout.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(layout);
+        layout.setPadding(new Insets(10,0,0,0));
         scene.getStylesheets().add(this.getClass().getResource("style.css").toExternalForm());
         window.setScene(scene);
         window.showAndWait();
