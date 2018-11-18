@@ -331,9 +331,17 @@ public class AdminController {
                 return;
             }
 
-            else
-                dbHelper.addShowtime(movieS.getSelectionModel().getSelectedIndex(),Integer.parseInt(hours.getSelectionModel().getSelectedItem().toString()),Integer.parseInt(minutes.getSelectionModel().getSelectedItem().toString()),daytime.getSelectionModel().getSelectedItem().toString().toUpperCase(),cinemaS.getSelectionModel().getSelectedIndex());
+            else {
+                String[] content=movieS.getSelectionModel().getSelectedItem().toString().split("\n");
+                String[] content2=cinemaS.getSelectionModel().getSelectedItem().toString().split("\n");
+
+                dbHelper.addShowtime(dbHelper.getMovieId(content[0]),
+                        Integer.parseInt(hours.getSelectionModel().getSelectedItem().toString()),
+                        Integer.parseInt(minutes.getSelectionModel().getSelectedItem().toString()),
+                        daytime.getSelectionModel().getSelectedItem().toString().toUpperCase(),
+                        dbHelper.getCinemaId(content2[0]));
                 AlertBox("Showtime", "Showtime added");
+            }
 
         }
 
