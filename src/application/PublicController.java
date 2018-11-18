@@ -412,6 +412,31 @@ public class PublicController {
             AlertBox("address", "address field is incomplete");
         }
 
+        else if(x_address.getText().isEmpty() && y_address.getText().isEmpty() && miles.getText().isEmpty()){
+            List list = dbHelper.getCinemas();
+            if(list!=null){
+                ObservableList<String> observableList = FXCollections.observableList(list);
+                tab2ListView.setItems(observableList);
+                tab2ListView.setCellFactory(lv -> new ListCell<String>() {
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (item == null) {
+                            setText(null);
+                            setStyle(null);
+                        } else {
+                            setText(item);
+                        }
+                    }
+                });
+            }
+            else{
+                ObservableList<String> observableList = FXCollections.observableList(new ArrayList<>());
+                tab2ListView.setItems(observableList);
+            }
+        }
+
         else if(!x_address.getText().isEmpty() && !y_address.getText().isEmpty() && miles.getText().isEmpty()){
             List list = dbHelper.getCinemas();
             if(list!=null){
