@@ -303,8 +303,7 @@ public class DatabaseHelper {
     }
 
     public boolean addMovie(String movieTitle, String rating){
-        String sql;
-        sql = "SELECT * FROM Movies WHERE movieTitle='"+movieTitle+"'";
+        String sql = "SELECT * FROM Movies WHERE movieTitle='"+movieTitle+"'";
 
         try (Connection conn = this.connect();
              Statement stmt  = conn.createStatement();
@@ -312,6 +311,7 @@ public class DatabaseHelper {
 
             if (!rs.isBeforeFirst()){
                 //movie doesn't exist
+
                 sql = "INSERT INTO Movies (movieTitle,rating) VALUES(?,?)";
                 try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                     pstmt.setString(1, movieTitle);
@@ -332,8 +332,38 @@ public class DatabaseHelper {
         return true;
     }
 
+    public String getRating(int movieId){
+        String rating="";
+
+        return rating;
+    }
+
     public boolean addShowtime(int movieId, int hour, int minute, String timePeriod, int cinemaId){
-        String sql;
+        //query for releaseType of cinema
+        String sql = "SELECT * FROM Cinemas WHERE cinemaId="+cinemaId+"";
+
+        try (Connection conn = this.connect();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql)) {
+
+            if (!rs.isBeforeFirst()) {
+            }else {
+                if(rs.getInt("releaseType")==1){
+                    //query Restrictions table to see if rating is allowed in cinema
+                    sql = "SELECT * FROM Restrictions WHERE restrictedRating='"+getRating(movieId)+"'";
+                    try (ResultSet rs2    = stmt.executeQuery(sql)) {
+                        if (!rs.isBeforeFirst()) {
+                            //movie rating not allowed
+                            return false;
+                        }
+                    }catch (SQLException e){
+
+                    }
+                }
+            }
+        } catch (SQLException e){
+
+        }
         sql = "INSERT INTO MoviesPlaying(movieId,showtimeHour,showtimeMinute,showtimeAMPM, cinemaId) VALUES(?,?,?,?,?)";
         try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, movieId);
@@ -359,16 +389,63 @@ public class DatabaseHelper {
 
             if (!rs.isBeforeFirst()){
                 //cinema doesn't exist
-                sql = "INSERT INTO Cinemas (cinemaName,locationX,locationY) VALUES(?,?,?)";
+                sql = "INSERT INTO Cinemas (cinemaName,locationX,locationY, releaseType) VALUES(?,?,?,?)";
                 try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                     pstmt.setString(1, cinemaName);
                     pstmt.setInt(2, locationX);
-                    pstmt.setInt(2, locationY);
+                    pstmt.setInt(3, locationY);
+                    pstmt.setInt(4, 1);
                     pstmt.executeUpdate();
                 } catch (SQLException e) {
                     System.out.println(e.getMessage());
                     return false;
                 }
+            }else{
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
+    }
+    public boolean addCinema(String cinemaName, int locationX, int locationY, int[] restrictions){
+        String sql;
+        sql = "SELECT * FROM Cinemas WHERE cinemaName='"+cinemaName+"'";
+
+        try (Connection conn = this.connect();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql)){
+
+            if (!rs.isBeforeFirst()){
+                //cinema doesn't exist
+                sql = "INSERT INTO Cinemas (cinemaName,locationX,locationY, releaseType) VALUES(?,?,?,?)";
+                try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                    pstmt.setString(1, cinemaName);
+                    pstmt.setInt(2, locationX);
+                    pstmt.setInt(3, locationY);
+                    pstmt.setInt(4, 1);
+                    pstmt.executeUpdate();
+                } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                    return false;
+                }
+
+                //add restrictions to restriction table
+                for(int i=0; i<restrictions.length;i++){
+                    if(restrictions[i]==1){
+                        sql = "INSERT INTO Restrictions (cinemaId,restrictedRating) VALUES(?,?)";
+                        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                            pstmt.setInt(1, getCinemaId(cinemaName));
+                            pstmt.setInt(2, restrictions[i]);
+                            pstmt.executeUpdate();
+                        } catch (SQLException e) {
+                            System.out.println(e.getMessage());
+                            return false;
+                        }
+                    }
+                }
+
             }else{
                 return false;
             }
