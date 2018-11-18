@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -22,6 +23,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.geometry.Insets;
 
 public class PublicController {
     DatabaseHelper dbHelper;
@@ -95,19 +97,42 @@ public class PublicController {
             tab1ListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    if(event.getClickCount()==2){
+                    if (event.getClickCount() == 2) {
                         tab1ListView.getSelectionModel().getSelectedItem();
-                        System.out.println(tab1ListView.getSelectionModel().getSelectedIndex());
-                        List list= dbHelper.getCinemas(tab1ListView.getSelectionModel().getSelectedIndex()+1);
-                        if(list!=null){
-                            ObservableList<String> observableList = FXCollections.observableList(list);
-                            tab1ListView.setItems(observableList);
-                        }else{
-                            ObservableList<String> observableList = FXCollections.observableList(new ArrayList<>());
-                            tab1ListView.setItems(observableList);
-                        }
 
-                    }
+                        Stage window = new Stage();
+                        window.initModality(Modality.APPLICATION_MODAL);
+                        window.setTitle("Cinema List");
+                        window.setMinWidth(400);
+                        window.setMinHeight(500);
+
+                        javafx.scene.control.Label label = new javafx.scene.control.Label();
+                        label.setText("Playing at these Cinemas: ");
+                        javafx.scene.control.Button closeButton = new javafx.scene.control.Button("OK");
+                        closeButton.setOnAction(e -> window.close());
+                        ListView<String> cinemalist = new ListView<String>();
+                        List list = dbHelper.getCinemas(tab1ListView.getSelectionModel().getSelectedIndex() + 1);
+                        if (list != null) {
+                            ObservableList<String> observableList = FXCollections.observableList(list);
+                            cinemalist.setItems(observableList);
+                        }
+                        else {
+                            ObservableList<String> observableList = FXCollections.observableList(new ArrayList<>());
+                            cinemalist.setItems(observableList);
+                        }
+                        VBox layout = new VBox(10);
+                        HBox bottom = new HBox();
+                        bottom.getChildren().addAll(closeButton);
+                        bottom.setAlignment(Pos.CENTER);
+                        layout.setPadding(new Insets(10,10,10,10));
+                        layout.getChildren().addAll(label, cinemalist, bottom);
+                        layout.setAlignment(Pos.TOP_LEFT);
+
+                        Scene scene = new Scene(layout);
+                        scene.getStylesheets().add(this.getClass().getResource("style.css").toExternalForm());
+                        window.setScene(scene);
+                        window.showAndWait();
+                }
                 }
             });
         }else{
@@ -137,9 +162,39 @@ public class PublicController {
                 public void handle(MouseEvent event) {
                     if(event.getClickCount()==2){
                         tab2ListView.getSelectionModel().getSelectedItem();
+
+                        Stage window = new Stage();
+                        window.initModality(Modality.APPLICATION_MODAL);
+                        window.setTitle("Movie List");
+                        window.setMinWidth(400);
+                        window.setMinHeight(500);
+
+                        javafx.scene.control.Label label = new javafx.scene.control.Label();
+                        label.setText("Movies Playing: ");
+                        javafx.scene.control.Button closeButton = new javafx.scene.control.Button("OK");
+                        closeButton.setOnAction(e -> window.close());
+                        ListView<String> movielist = new ListView<String>();
                         List list= dbHelper.getMovies(tab2ListView.getSelectionModel().getSelectedIndex()+1);
-                        ObservableList<String> observableList = FXCollections.observableList(list);
-                        tab2ListView.setItems(observableList);
+                        if (list != null) {
+                            ObservableList<String> observableList = FXCollections.observableList(list);
+                            movielist.setItems(observableList);
+                        }
+                        else {
+                            ObservableList<String> observableList = FXCollections.observableList(new ArrayList<>());
+                            movielist.setItems(observableList);
+                        }
+                        VBox layout = new VBox(10);
+                        HBox bottom = new HBox();
+                        bottom.getChildren().addAll(closeButton);
+                        bottom.setAlignment(Pos.CENTER);
+                        layout.setPadding(new Insets(10,10,10,10));
+                        layout.getChildren().addAll(label, movielist,bottom);
+                        layout.setAlignment(Pos.TOP_LEFT);
+
+                        Scene scene = new Scene(layout);
+                        scene.getStylesheets().add(this.getClass().getResource("style.css").toExternalForm());
+                        window.setScene(scene);
+                        window.showAndWait();
                     }
                 }
             });
@@ -172,6 +227,7 @@ public class PublicController {
         layout.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(layout);
+        scene.getStylesheets().add(this.getClass().getResource("style.css").toExternalForm());
         window.setScene(scene);
         window.showAndWait();
 
