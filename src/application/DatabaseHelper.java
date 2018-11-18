@@ -365,10 +365,12 @@ public class DatabaseHelper {
             }else {
                 if(rs.getInt("releaseType")==1){ //limited release
                     //query Restrictions table to see if rating is allowed in cinema
-                    sql = "SELECT * FROM Restrictions WHERE restrictedRating='"+getRating(movieId)+"'";
+                    sql = "SELECT * FROM Restrictions WHERE restrictedRating='"+getRating(movieId)+"' AND cinemaId="+cinemaId;
+                    System.out.println(getRating(movieId));
                     try (ResultSet rs2    = stmt.executeQuery(sql)) {
                         if (!rs2.isBeforeFirst()) {
                             //movie rating not allowed
+                            System.out.println("not allowed");
                             return false;
                         }
                     }catch (SQLException e){

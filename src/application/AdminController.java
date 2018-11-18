@@ -18,9 +18,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,34 +29,34 @@ public class AdminController {
         DatabaseHelper dbHelper;
 
         @FXML
-        private TextField movietitle;
+        private TextField movieTitleTextField;
 
         @FXML
-        private ComboBox movieS;
+        private ComboBox moviesComboBox;
 
         @FXML
-        private TextField cinemaname;
+        private TextField cinemaNameTextField;
 
         @FXML
-        private ComboBox cinemaS;
+        private ComboBox cinemasComboBox;
 
         @FXML
-        private TextField x_address;
+        private TextField xCoordinateTextField;
 
         @FXML
-        private TextField y_address;
+        private TextField yCoordinateTextField;
 
         @FXML
-        private ComboBox rating;
+        private ComboBox ratingComboBox;
 
         @FXML
-        private ComboBox hours;
+        private ComboBox hoursComboBox;
 
         @FXML
-        private ComboBox minutes;
+        private ComboBox minutesComboBox;
 
         @FXML
-        private ComboBox daytime;
+        private ComboBox timePeriodComboBox;
 
         @FXML
         private RadioButton All;
@@ -90,27 +88,27 @@ public class AdminController {
     public void initialize(){
         dbHelper=new DatabaseHelper();
 
-        rating.getItems().addAll("G","PG","PG-13","R","NC17");
-        hours.getItems().addAll(IntStream.rangeClosed(1,12).boxed().collect(Collectors.toList()));
-        minutes.getItems().addAll(IntStream.rangeClosed(0,59).boxed().collect(Collectors.toList()));
-        daytime.getItems().addAll("am","pm");
-        movieS.getItems().addAll(dbHelper.getMovies("All"));
-        cinemaS.getItems().addAll(dbHelper.getCinemas());
+        ratingComboBox.getItems().addAll("G","PG","PG-13","R","NC17");
+        hoursComboBox.getItems().addAll(IntStream.rangeClosed(1,12).boxed().collect(Collectors.toList()));
+        minutesComboBox.getItems().addAll(IntStream.rangeClosed(0,59).boxed().collect(Collectors.toList()));
+        timePeriodComboBox.getItems().addAll("AM","PM");
+        moviesComboBox.getItems().addAll(dbHelper.getMovies("All"));
+        cinemasComboBox.getItems().addAll(dbHelper.getCinemas());
 
-        x_address.textProperty().addListener(new ChangeListener<String>() {
+        xCoordinateTextField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (!newValue.matches("\\d*")) {
-                    x_address.setText(newValue.replaceAll("[^\\d]", ""));
+                    xCoordinateTextField.setText(newValue.replaceAll("[^\\d]", ""));
                 }
             }
         } );
 
-        y_address.textProperty().addListener(new ChangeListener<String>() {
+        yCoordinateTextField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (!newValue.matches("\\d*")) {
-                    y_address.setText(newValue.replaceAll("[^\\d]", ""));
+                    yCoordinateTextField.setText(newValue.replaceAll("[^\\d]", ""));
                 }
             }
         } );
@@ -252,93 +250,93 @@ public class AdminController {
         }
 
         public void movieApply(ActionEvent e){
-            if(movietitle.getText().isEmpty()){
+            if(movieTitleTextField.getText().isEmpty()){
                 AlertBox("Movietitle", "Movie title field is empty.");
                 return;
             }
 
-            else if(rating.getSelectionModel().getSelectedItem() == null){
+            else if(ratingComboBox.getSelectionModel().getSelectedItem() == null){
                 AlertBox("Rating", "No rating selected");
                 return;
             }
 
             else
-                dbHelper.addMovie(movietitle.getText(),rating.getSelectionModel().getSelectedItem().toString());
-                System.out.println("movie added " + movietitle.getText() + " rating: " + rating.getSelectionModel().getSelectedItem().toString());
+                dbHelper.addMovie(movieTitleTextField.getText(), ratingComboBox.getSelectionModel().getSelectedItem().toString());
+                System.out.println("movie added " + movieTitleTextField.getText() + " ratingComboBox: " + ratingComboBox.getSelectionModel().getSelectedItem().toString());
         }
 
         public void cinemaApply(ActionEvent e) {
-            if (cinemaname.getText().isEmpty()) {
+            if (cinemaNameTextField.getText().isEmpty()) {
                 AlertBox("Cinema", "cinema field is empty.");
                 return;
             }
-            else if (x_address.getText().isEmpty() || y_address.getText().isEmpty()) {
+            else if (xCoordinateTextField.getText().isEmpty() || yCoordinateTextField.getText().isEmpty()) {
                 AlertBox("Address", "address field is incomplete.");
                 return;
             }
 
             else if (G.isSelected() || PG.isSelected() || PG13.isSelected() || R.isSelected() || NC17.isSelected()) {
-                ArrayList<String> rating = new ArrayList<String>();
+                ArrayList<String> ratingList = new ArrayList<String>();
                 if (G.isSelected()) {
-                    rating.add("G");
+                    ratingList.add("G");
                 }
                 if (PG.isSelected()) {
-                    rating.add("PG");
+                    ratingList.add("PG");
                 }
                 if (PG13.isSelected()) {
-                    rating.add("PG13");
+                    ratingList.add("PG-13");
                 }
                 if (R.isSelected()) {
-                    rating.add("R");
+                    ratingList.add("R");
                 }
                 if (NC17.isSelected()) {
-                    rating.add("NC17");
+                    ratingList.add("NC17");
                 }
 
-                dbHelper.addCinema(cinemaname.getText(), Integer.parseInt(x_address.getText()), Integer.parseInt(y_address.getText()), rating);
-                AlertBox("Cinema Added", "Cinema added to database with " + rating + " restrictions");
+                dbHelper.addCinema(cinemaNameTextField.getText(), Integer.parseInt(xCoordinateTextField.getText()), Integer.parseInt(yCoordinateTextField.getText()), ratingList);
+                AlertBox("Cinema Added", "Cinema added to database with " + ratingList + " restrictions");
             }
 
             else {
-                dbHelper.addCinema(cinemaname.getText(), Integer.parseInt(x_address.getText()), Integer.parseInt(y_address.getText()));
+                dbHelper.addCinema(cinemaNameTextField.getText(), Integer.parseInt(xCoordinateTextField.getText()), Integer.parseInt(yCoordinateTextField.getText()));
                 AlertBox("Cinema Added", "Cinema added with no restrictions");
             }
         }
 
         public void showtimeApply(ActionEvent e){
-            if(movieS.getSelectionModel().getSelectedItem() == null){
-                AlertBox("Movie Title", "no movie selected");
+            if(moviesComboBox.getSelectionModel().getSelectedItem() == null){
+                AlertBox("Movie Title", "No movie selected");
                 return;
             }
 
-            else if(cinemaS.getSelectionModel().getSelectedItem() == null){
-                AlertBox("Cinema", "no Cinema selected");
+            else if(cinemasComboBox.getSelectionModel().getSelectedItem() == null){
+                AlertBox("Cinema", "No cinema selected");
                 return;
             }
 
-            else if(hours.getSelectionModel().getSelectedItem() == null){
-                AlertBox("hours", "no hours selected");
+            else if(hoursComboBox.getSelectionModel().getSelectedItem() == null){
+                AlertBox("hoursComboBox", "No hour selected");
                 return;
             }
 
-            else if(minutes.getSelectionModel().getSelectedItem() == null){
-                AlertBox("minutes", "no minutes selected");
+            else if(minutesComboBox.getSelectionModel().getSelectedItem() == null){
+                AlertBox("minutesComboBox", "No minutes selected");
                 return;
             }
 
-            else if(daytime.getSelectionModel().getSelectedItem() == null){
-                AlertBox("daytime", "no daytime selected");
+            else if(timePeriodComboBox.getSelectionModel().getSelectedItem() == null){
+                AlertBox("timePeriodComboBox", "Please select AM or PM");
                 return;
             }
 
             else {
-                String[] content=movieS.getSelectionModel().getSelectedItem().toString().split("\n");
-                String[] content2=cinemaS.getSelectionModel().getSelectedItem().toString().split("\n");
+                String[] content= moviesComboBox.getSelectionModel().getSelectedItem().toString().split("\n");
+                String[] content2= cinemasComboBox.getSelectionModel().getSelectedItem().toString().split("\n");
 
                 dbHelper.addShowtime(dbHelper.getMovieId(content[0]),
-                        Integer.parseInt(hours.getSelectionModel().getSelectedItem().toString()),
-                        Integer.parseInt(minutes.getSelectionModel().getSelectedItem().toString()),
-                        daytime.getSelectionModel().getSelectedItem().toString().toUpperCase(),
+                        Integer.parseInt(hoursComboBox.getSelectionModel().getSelectedItem().toString()),
+                        Integer.parseInt(minutesComboBox.getSelectionModel().getSelectedItem().toString()),
+                        timePeriodComboBox.getSelectionModel().getSelectedItem().toString().toUpperCase(),
                         dbHelper.getCinemaId(content2[0]));
                 AlertBox("Showtime", "Showtime added");
             }
