@@ -333,9 +333,22 @@ public class DatabaseHelper {
     }
 
     public String getRating(int movieId){
-        String rating="";
+        String sql = "SELECT * FROM Movies WHERE movieId="+movieId;
 
-        return rating;
+        try (Connection conn = this.connect();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql)){
+
+            if (!rs.isBeforeFirst()){
+                return null;
+            }else{
+                rs.next();
+                return rs.getString("rating");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 
     public boolean addShowtime(int movieId, int hour, int minute, String timePeriod, int cinemaId){
@@ -348,11 +361,11 @@ public class DatabaseHelper {
 
             if (!rs.isBeforeFirst()) {
             }else {
-                if(rs.getInt("releaseType")==1){
+                if(rs.getInt("releaseType")==1){ //limited release
                     //query Restrictions table to see if rating is allowed in cinema
                     sql = "SELECT * FROM Restrictions WHERE restrictedRating='"+getRating(movieId)+"'";
                     try (ResultSet rs2    = stmt.executeQuery(sql)) {
-                        if (!rs.isBeforeFirst()) {
+                        if (!rs2.isBeforeFirst()) {
                             //movie rating not allowed
                             return false;
                         }
@@ -409,7 +422,7 @@ public class DatabaseHelper {
         }
         return true;
     }
-    public boolean addCinema(String cinemaName, int locationX, int locationY, String[] restrictions){
+    public boolean addCinema(String cinemaName, int locationX, int locationY, ArrayList<String> restrictionList){
         String sql;
         sql = "SELECT * FROM Cinemas WHERE cinemaName='"+cinemaName+"'";
 
@@ -432,12 +445,11 @@ public class DatabaseHelper {
                 }
 
                 //add restrictions to restriction table
-                for(int i=0; i<restrictions.length;i++){
-
+                for(String rating : restrictionList){
                         sql = "INSERT INTO Restrictions (cinemaId,restrictedRating) VALUES(?,?)";
                         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                             pstmt.setInt(1, getCinemaId(cinemaName));
-                            pstmt.setString(2, restrictions[i]);
+                            pstmt.setString(2, rating);
                             pstmt.executeUpdate();
                         } catch (SQLException e) {
                             System.out.println(e.getMessage());
