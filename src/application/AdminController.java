@@ -46,9 +46,6 @@ public class AdminController {
         private ComboBox rating;
 
         @FXML
-        private ComboBox cinema;
-
-        @FXML
         private ComboBox hours;
 
         @FXML
@@ -77,7 +74,6 @@ public class AdminController {
 
     public void initialize(){
         rating.getItems().addAll("G","PG","PG-13","R","NC17");
-        cinema.getItems().addAll("all cinemas in db");
         hours.getItems().addAll(IntStream.rangeClosed(1,12).boxed().collect(Collectors.toList()));
         minutes.getItems().addAll(IntStream.rangeClosed(0,59).boxed().collect(Collectors.toList()));
         daytime.getItems().addAll("am","pm");
@@ -122,10 +118,6 @@ public class AdminController {
 
             else if(rating.getSelectionModel().getSelectedItem() == null){
                 AlertBox("rating", "no rating selected");
-            }
-
-            else if(cinema.getSelectionModel().getSelectedItem() == null){
-                AlertBox("cinema", "no cinema selected");
             }
 
             else
