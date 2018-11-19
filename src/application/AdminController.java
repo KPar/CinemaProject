@@ -50,6 +50,9 @@ public class AdminController {
         private ComboBox ratingComboBox;
 
         @FXML
+        private ComboBox releaseTypeComboBox;
+
+        @FXML
         private ComboBox hoursComboBox;
 
         @FXML
@@ -77,6 +80,15 @@ public class AdminController {
         private RadioButton NC17;
 
         @FXML
+        private RadioButton GeneralBttn;
+
+        @FXML
+        private RadioButton AllBttn;
+
+        @FXML
+        private RadioButton LimitedBttn;
+
+        @FXML
         private ListView<String> movieListView;
 
         @FXML
@@ -88,7 +100,8 @@ public class AdminController {
     public void initialize(){
         dbHelper=new DatabaseHelper();
 
-        ratingComboBox.getItems().addAll("G","PG","PG-13","R","NC17");
+        ratingComboBox.getItems().addAll("Unrated","G","PG","PG-13","R","NC17");
+        releaseTypeComboBox.getItems().addAll("General","Limited");
         hoursComboBox.getItems().addAll(IntStream.rangeClosed(1,12).boxed().collect(Collectors.toList()));
         minutesComboBox.getItems().addAll(IntStream.rangeClosed(0,59).boxed().collect(Collectors.toList()));
         timePeriodComboBox.getItems().addAll("AM","PM");
@@ -202,6 +215,42 @@ public class AdminController {
             }
         });
 
+        AllBttn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                AllBttn.setSelected(true);
+                if (GeneralBttn.isSelected()) {
+                    GeneralBttn.setSelected(false);
+                }
+                if (LimitedBttn.isSelected()) {
+                    LimitedBttn.setSelected(false);
+                }
+            }
+        });
+
+        GeneralBttn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if(!GeneralBttn.isSelected() && !LimitedBttn.isSelected()){
+                    AllBttn.setSelected(true);
+                }
+                else
+                    AllBttn.setSelected(false);
+            }
+        });
+
+        LimitedBttn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if(!GeneralBttn.isSelected() && !LimitedBttn.isSelected()){
+                    AllBttn.setSelected(true);
+                }
+                else
+                    AllBttn.setSelected(false);
+            }
+        });
+
+
         List list = dbHelper.getMovies("All");
         if(list!=null){
             ObservableList<String> observableList = FXCollections.observableList(list);
@@ -294,13 +343,27 @@ public class AdminController {
                 return;
             }
 
+            else if(releaseTypeComboBox.getSelectionModel().getSelectedItem() == null){
+                AlertBox("Release Type", "Please choose General or Limited Release");
+                return;
+            }
+
             else
-                dbHelper.addMovie(movieTitleTextField.getText(), ratingComboBox.getSelectionModel().getSelectedItem().toString());
+                dbHelper.addMovie(movieTitleTextField.getText(), ratingComboBox.getSelectionModel().getSelectedItem().toString(), releaseTypeComboBox.getSelectionModel().getSelectedItem().toString());
                 refreshAll();
                 System.out.println("movie added " + movieTitleTextField.getText() + " ratingComboBox: " + ratingComboBox.getSelectionModel().getSelectedItem().toString());
         }
 
         public void cinemaApply(ActionEvent e) {
+            String releaseTypeRestriction = "";
+
+            if(GeneralBttn.isSelected()){
+                releaseTypeRestriction="General";
+            }else if(LimitedBttn.isSelected()){
+                releaseTypeRestriction="Limited";
+            }else{
+                releaseTypeRestriction="All";
+            }
             if (cinemaNameTextField.getText().isEmpty()) {
                 AlertBox("Cinema", "cinema field is empty.");
                 return;
@@ -328,12 +391,12 @@ public class AdminController {
                     ratingList.add("NC17");
                 }
 
-                dbHelper.addCinema(cinemaNameTextField.getText(), Integer.parseInt(xCoordinateTextField.getText()), Integer.parseInt(yCoordinateTextField.getText()), ratingList);
+                dbHelper.addCinema(cinemaNameTextField.getText(), Integer.parseInt(xCoordinateTextField.getText()), Integer.parseInt(yCoordinateTextField.getText()), ratingList,releaseTypeRestriction);
                 AlertBox("Cinema Added", "Cinema added to Database with " + ratingList + " restrictions");
             }
 
             else {
-                dbHelper.addCinema(cinemaNameTextField.getText(), Integer.parseInt(xCoordinateTextField.getText()), Integer.parseInt(yCoordinateTextField.getText()));
+                dbHelper.addCinema(cinemaNameTextField.getText(), Integer.parseInt(xCoordinateTextField.getText()), Integer.parseInt(yCoordinateTextField.getText()),releaseTypeRestriction);
                 AlertBox("Cinema Added", "Cinema added with no restrictions");
             }
             refreshAll();
@@ -373,7 +436,7 @@ public class AdminController {
                         Integer.parseInt(minutesComboBox.getSelectionModel().getSelectedItem().toString()),
                         timePeriodComboBox.getSelectionModel().getSelectedItem().toString().toUpperCase(),
                         dbHelper.getCinemaId(content2[0]))==false){
-                    AlertBox("Denied", "Movies with this rating are not allowed in this cinema");
+                    AlertBox("Denied", "Movies with this Rating or Release Type are not allowed in this cinema");
                     return;
                 }
                 AlertBox("Showtime", "Showtime added");
