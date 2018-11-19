@@ -92,8 +92,20 @@ public class AdminController {
         hoursComboBox.getItems().addAll(IntStream.rangeClosed(1,12).boxed().collect(Collectors.toList()));
         minutesComboBox.getItems().addAll(IntStream.rangeClosed(0,59).boxed().collect(Collectors.toList()));
         timePeriodComboBox.getItems().addAll("AM","PM");
-        moviesComboBox.getItems().addAll(dbHelper.getMovies("All"));
-        cinemasComboBox.getItems().addAll(dbHelper.getCinemas());
+        moviesComboBox.getItems().clear();
+        if(dbHelper.getMovies("All")==null){
+            moviesComboBox.getItems().add("No Movies in Database");
+        }else{
+            moviesComboBox.getItems().addAll(dbHelper.getMovies("All"));
+        }
+
+
+        cinemasComboBox.getItems().clear();
+        if(dbHelper.getCinemas()==null){
+            cinemasComboBox.getItems().add("No Cinemas in Database");
+        }else{
+            cinemasComboBox.getItems().addAll(dbHelper.getCinemas());
+        }
 
         xCoordinateTextField.textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -236,6 +248,28 @@ public class AdminController {
                 cinemaListView.setItems(observableList);
             }
 
+        list = dbHelper.getMoviesShowtimes();
+        if(list!=null) {
+            ObservableList<String> observableList = FXCollections.observableList(list);
+            showtimesListView.setItems(observableList);
+            showtimesListView.setCellFactory(lv -> new ListCell<String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (item == null) {
+                        setText(null);
+                        setStyle(null);
+                    } else {
+                        setText(item);
+                    }
+                }
+            });
+        }
+        else{
+            ObservableList<String> observableList = FXCollections.observableList(new ArrayList<>());
+            showtimesListView.setItems(observableList);
+        }
     }
 
         public void Public(ActionEvent event) throws IOException {
@@ -262,6 +296,7 @@ public class AdminController {
 
             else
                 dbHelper.addMovie(movieTitleTextField.getText(), ratingComboBox.getSelectionModel().getSelectedItem().toString());
+                refreshAll();
                 System.out.println("movie added " + movieTitleTextField.getText() + " ratingComboBox: " + ratingComboBox.getSelectionModel().getSelectedItem().toString());
         }
 
@@ -294,13 +329,14 @@ public class AdminController {
                 }
 
                 dbHelper.addCinema(cinemaNameTextField.getText(), Integer.parseInt(xCoordinateTextField.getText()), Integer.parseInt(yCoordinateTextField.getText()), ratingList);
-                AlertBox("Cinema Added", "Cinema added to database with " + ratingList + " restrictions");
+                AlertBox("Cinema Added", "Cinema added to Database with " + ratingList + " restrictions");
             }
 
             else {
                 dbHelper.addCinema(cinemaNameTextField.getText(), Integer.parseInt(xCoordinateTextField.getText()), Integer.parseInt(yCoordinateTextField.getText()));
                 AlertBox("Cinema Added", "Cinema added with no restrictions");
             }
+            refreshAll();
         }
 
         public void showtimeApply(ActionEvent e){
@@ -332,25 +368,35 @@ public class AdminController {
             else {
                 String[] content= moviesComboBox.getSelectionModel().getSelectedItem().toString().split("\n");
                 String[] content2= cinemasComboBox.getSelectionModel().getSelectedItem().toString().split("\n");
-
-                dbHelper.addShowtime(dbHelper.getMovieId(content[0]),
+                if(dbHelper.addShowtime(dbHelper.getMovieId(content[0]),
                         Integer.parseInt(hoursComboBox.getSelectionModel().getSelectedItem().toString()),
                         Integer.parseInt(minutesComboBox.getSelectionModel().getSelectedItem().toString()),
                         timePeriodComboBox.getSelectionModel().getSelectedItem().toString().toUpperCase(),
-                        dbHelper.getCinemaId(content2[0]));
+                        dbHelper.getCinemaId(content2[0]))==false){
+                    AlertBox("Denied", "Movies with this rating are not allowed in this cinema");
+                    return;
+                }
                 AlertBox("Showtime", "Showtime added");
             }
-
+            refreshAll();
         }
 
         public void movieDelete(ActionEvent e){
-            System.out.println(movieListView.getSelectionModel().getSelectedItem());
-            //dbHelper.removeMovie(movieid);
-            AlertBox("Delete", "Movie deleted");
+            if(movieListView.getSelectionModel().getSelectedItem()==null){
+                return;
+            }
+            String[] content=movieListView.getSelectionModel().getSelectedItem().split("\n");
+            dbHelper.removeMovie(dbHelper.getMovieId(content[0]));
+            refreshAll();
         }
 
         public void cinemaDelete(ActionEvent e){
-            AlertBox("Delete", "Cinema deleted");
+            if(cinemaListView.getSelectionModel().getSelectedItem()==null){
+                return;
+            }
+            String[] content=cinemaListView.getSelectionModel().getSelectedItem().split("\n");
+            dbHelper.removeCinema(dbHelper.getCinemaId(content[0]));
+            refreshAll();
         }
 
         private void AlertBox(String title, String message){
@@ -375,6 +421,93 @@ public class AdminController {
             scene.getStylesheets().add(this.getClass().getResource("style.css").toExternalForm());
             window.setScene(scene);
             window.showAndWait();
+
+        }
+
+        public void refreshAll(){
+            List list = dbHelper.getMovies("All");
+            if(list!=null){
+                ObservableList<String> observableList = FXCollections.observableList(list);
+                movieListView.setItems(observableList);
+                movieListView.setCellFactory(lv -> new ListCell<String>() {
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (item == null) {
+                            setText(null);
+                            setStyle(null);
+                        } else {
+                            setText(item);
+                        }
+                    }
+                });
+            }
+            else {
+                ObservableList<String> observableList = FXCollections.observableList(new ArrayList<>());
+                movieListView.setItems(observableList);
+            }
+
+            list = dbHelper.getCinemas();
+            if(list!=null) {
+                ObservableList<String> observableList = FXCollections.observableList(list);
+                cinemaListView.setItems(observableList);
+                cinemaListView.setCellFactory(lv -> new ListCell<String>() {
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (item == null) {
+                            setText(null);
+                            setStyle(null);
+                        } else {
+                            setText(item);
+                        }
+                    }
+                });
+            }
+            else{
+                ObservableList<String> observableList = FXCollections.observableList(new ArrayList<>());
+                cinemaListView.setItems(observableList);
+            }
+
+            list = dbHelper.getMoviesShowtimes();
+            if(list!=null) {
+                ObservableList<String> observableList = FXCollections.observableList(list);
+                showtimesListView.setItems(observableList);
+                showtimesListView.setCellFactory(lv -> new ListCell<String>() {
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (item == null) {
+                            setText(null);
+                            setStyle(null);
+                        } else {
+                            setText(item);
+                        }
+                    }
+                });
+            }
+            else{
+                ObservableList<String> observableList = FXCollections.observableList(new ArrayList<>());
+                showtimesListView.setItems(observableList);
+            }
+            moviesComboBox.getItems().clear();
+            if(dbHelper.getMovies("All")==null){
+                    moviesComboBox.getItems().add("No Movies in Database");
+                }else{
+                    moviesComboBox.getItems().addAll(dbHelper.getMovies("All"));
+                }
+
+
+            cinemasComboBox.getItems().clear();
+            if(dbHelper.getCinemas()==null){
+                    cinemasComboBox.getItems().add("No Cinemas in Database");
+                }else{
+                    cinemasComboBox.getItems().addAll(dbHelper.getCinemas());
+                }
+
 
         }
 }

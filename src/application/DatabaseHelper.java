@@ -27,7 +27,12 @@ public class DatabaseHelper {
             stmt.execute(sql);
             sql = "CREATE TABLE IF NOT EXISTS Cinemas ( " +
                     "cinemaId  INTEGER PRIMARY KEY AUTOINCREMENT, cinemaName TEXT, " +
-                    "locationX INTEGER, locationY INTEGER);";
+                    "locationX INTEGER, locationY INTEGER, releaseType INTEGER);";
+            stmt.execute(sql);
+            sql  = "CREATE TABLE IF NOT EXISTS Restrictions ( "+
+                    "restrictionId INTEGER PRIMARY KEY AUTOINCREMENT,"+
+                    "cinemaId INTEGER REFERENCES Cinemas (cinemaId),"+
+                    "restrictedRating TEXT);";
             stmt.execute(sql);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -110,6 +115,9 @@ public class DatabaseHelper {
                                 if(rs2.getInt("showtimeMinute")==0) {
                                     data = data.concat(" "+rs2.getInt("showtimeHour")
                                             + ":00" + " " + rs2.getString("showtimeAMPM"));
+                                }else if(rs2.getInt("showtimeMinute")<=9) {
+                                    data = data.concat(" "+rs2.getInt("showtimeHour")
+                                            + ":0"+rs2.getInt("showtimeMinute")+ " " + rs2.getString("showtimeAMPM"));
                                 }else{
                                     data = data.concat(" "+rs2.getInt("showtimeHour")
                                             +":"+rs2.getInt("showtimeMinute")+" "+rs2.getString("showtimeAMPM"));
@@ -130,6 +138,40 @@ public class DatabaseHelper {
             System.out.println(e.getMessage());
             return null;
         }
+    }
+
+    public List getMoviesShowtimes() {
+        String sql;
+        sql = "SELECT * FROM Movies";
+        List<String> list = new ArrayList<>();
+        String data = "";
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            System.out.println("hi");
+            if (!rs.isBeforeFirst()) {
+                return null;
+            } else {
+                while ((rs.next())) {
+                    int movieId = rs.getInt("movieId");
+
+                    data = data.concat("[ "+rs.getString("movieTitle") + " " + "  Rated: " + rs.getString("rating")+" ]\n\n");
+
+                    List<String> cinemaList = getCinemas(movieId);
+                    if(cinemaList!=null){
+                        for (String item : cinemaList) {
+                            data = data.concat(item + "\n\n");
+                        }
+                    }
+
+                    list.add(data);
+                    data = "";
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return list;
     }
 
     public List getCinemas(){
@@ -254,6 +296,9 @@ public class DatabaseHelper {
                                 if(rs2.getInt("showtimeMinute")==0) {
                                     data = data.concat(" "+rs2.getInt("showtimeHour")
                                             + ":00" + " " + rs2.getString("showtimeAMPM"));
+                                }else if(rs2.getInt("showtimeMinute")<=9) {
+                                    data = data.concat(" "+rs2.getInt("showtimeHour")
+                                            + ":0"+rs2.getInt("showtimeMinute")+ " " + rs2.getString("showtimeAMPM"));
                                 }else{
                                     data = data.concat(" "+rs2.getInt("showtimeHour")
                                             +":"+rs2.getInt("showtimeMinute")+" "+rs2.getString("showtimeAMPM"));
@@ -411,7 +456,7 @@ public class DatabaseHelper {
                     pstmt.setString(1, cinemaName);
                     pstmt.setInt(2, locationX);
                     pstmt.setInt(3, locationY);
-                    pstmt.setInt(4, 1);
+                    pstmt.setInt(4, 0);
                     pstmt.executeUpdate();
                 } catch (SQLException e) {
                     System.out.println(e.getMessage());
