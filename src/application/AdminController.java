@@ -322,7 +322,7 @@ public class AdminController {
     }
 
         public void Public(ActionEvent event) throws IOException {
-            Parent account = FXMLLoader.load(getClass().getResource("Public.fxml"));
+            Parent account = FXMLLoader.load(getClass().getResource("public.fxml"));
             Scene accountscene = new Scene(account);
 
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();

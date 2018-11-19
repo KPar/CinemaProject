@@ -23,11 +23,11 @@ public class DatabaseHelper {
             stmt.execute(sql);
             sql = "CREATE TABLE IF NOT EXISTS Movies ( " +
                     "movieId INTEGER PRIMARY KEY AUTOINCREMENT, movieTitle TEXT, " +
-                    "rating  TEXT);";
+                    "rating  TEXT, releaseType TEXT);";
             stmt.execute(sql);
             sql = "CREATE TABLE IF NOT EXISTS Cinemas ( " +
                     "cinemaId  INTEGER PRIMARY KEY AUTOINCREMENT, cinemaName TEXT, " +
-                    "locationX INTEGER, locationY INTEGER, hasRatingRestriction INTEGER);";
+                    "locationX INTEGER, locationY INTEGER, hasRatingRestriction INTEGER, releaseTypeRestriction TEXT);";
             stmt.execute(sql);
             sql  = "CREATE TABLE IF NOT EXISTS Restrictions ( "+
                     "restrictionId INTEGER PRIMARY KEY AUTOINCREMENT,"+
