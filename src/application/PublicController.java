@@ -98,6 +98,9 @@ public class PublicController {
                 @Override
                 public void handle(MouseEvent event) {
                     if (event.getClickCount() == 2) {
+                        if(tab1ListView.getSelectionModel().getSelectedItem()==null){
+                            return;
+                        }
                         tab1ListView.getSelectionModel().getSelectedItem();
 
                         Stage window = new Stage();
@@ -162,7 +165,11 @@ public class PublicController {
                 @Override
                 public void handle(MouseEvent event) {
                     if(event.getClickCount()==2){
+                        if(tab2ListView.getSelectionModel().getSelectedItem()==null){
+                            return;
+                        }
                         tab2ListView.getSelectionModel().getSelectedItem();
+
 
                         Stage window = new Stage();
                         window.initModality(Modality.APPLICATION_MODAL);

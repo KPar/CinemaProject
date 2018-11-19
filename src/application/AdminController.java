@@ -397,7 +397,7 @@ public class AdminController {
 
             else {
                 dbHelper.addCinema(cinemaNameTextField.getText(), Integer.parseInt(xCoordinateTextField.getText()), Integer.parseInt(yCoordinateTextField.getText()),releaseTypeRestriction);
-                AlertBox("Cinema Added", "Cinema added with no restrictions");
+                AlertBox("Cinema Added", "Cinema added");
             }
             refreshAll();
         }
